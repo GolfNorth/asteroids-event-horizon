@@ -1,0 +1,16 @@
+{
+    "name": "NonUnity.Ecs",
+    "rootNamespace": "NonUnity.Ecs",
+    "references": [
+        "GUID:f44052a1f7eb3c045bdb41dfce33b02f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
