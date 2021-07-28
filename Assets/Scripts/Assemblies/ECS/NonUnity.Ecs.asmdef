@@ -1,9 +1,7 @@
 {
     "name": "NonUnity.Ecs",
     "rootNamespace": "NonUnity.Ecs",
-    "references": [
-        "GUID:f44052a1f7eb3c045bdb41dfce33b02f"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -4,19 +4,36 @@ using System.Collections.Specialized;
 
 namespace NonUnity.Ecs
 {
-    public class EcsSystemManager
+    /// <summary>
+    /// Менеджер систем
+    /// </summary>
+    internal sealed class EcsSystemManager
     {
-        private Dictionary<string, BitVector32> _signatures;
+        /// <summary>
+        /// Словарь сигнатур
+        /// </summary>
+        private readonly Dictionary<string, BitVector32> _signatures;
 
-        private Dictionary<string, EcsSystem> _systems;
+        /// <summary>
+        /// Словарь систем
+        /// </summary>
+        private readonly Dictionary<string, EcsSystem> _systems;
 
+        /// <summary>
+        /// Конструктор менеджера систем
+        /// </summary>
         public EcsSystemManager()
         {
             _signatures = new Dictionary<string, BitVector32>(EcsConfig.MaxEntitiesCount);
             _systems = new Dictionary<string, EcsSystem>();
         }
 
-        public T RegisterSystem<T>() where T : EcsSystem, new()
+        /// <summary>
+        /// Зарегистрировать систему
+        /// </summary>
+        /// <param name="system">Экземпляр системы</param>
+        /// <typeparam name="T">Тип системы</typeparam>
+        public void RegisterSystem<T>(T system) where T : EcsSystem
         {
             string typeName = nameof(T);
 
@@ -25,13 +42,14 @@ namespace NonUnity.Ecs
                 throw new ArgumentException("Registering system more than once.");
             }
 
-            T system = new T();
-
             _systems.Add(typeName, system);
-
-            return system;
         }
 
+        /// <summary>
+        /// Задать сигнатуру системы
+        /// </summary>
+        /// <param name="signature">Сигнатура системы</param>
+        /// <typeparam name="T">Тип системы</typeparam>
         public void SetSignature<T>(ref BitVector32 signature) where T : EcsSystem
         {
             string typeName = nameof(T);
@@ -44,6 +62,10 @@ namespace NonUnity.Ecs
             _signatures.Add(typeName, signature);
         }
 
+        /// <summary>
+        /// Обработка уничтожения сущности
+        /// </summary>
+        /// <param name="entityId">Идентификатор сущности</param>
         public void EntityDestroyed(uint entityId)
         {
             foreach (KeyValuePair<string, EcsSystem> pair in _systems)
@@ -54,6 +76,11 @@ namespace NonUnity.Ecs
             }
         }
 
+        /// <summary>
+        /// Обработка изменения сигнатуры сущности
+        /// </summary>
+        /// <param name="entityId">Идентификатор сущности</param>
+        /// <param name="entitySignature">Сигнатура сущности</param>
         public void EntitySignatureChanged(uint entityId, ref BitVector32 entitySignature)
         {
             foreach (KeyValuePair<string, EcsSystem> pair in _systems)

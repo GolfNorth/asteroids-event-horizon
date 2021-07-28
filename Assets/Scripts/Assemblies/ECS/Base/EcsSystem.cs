@@ -2,8 +2,22 @@
 
 namespace NonUnity.Ecs
 {
-    public class EcsSystem
+    /// <summary>
+    /// Базовый класс системы
+    /// </summary>
+    public abstract class EcsSystem
     {
-        public List<uint> Entities;
+        /// <summary>
+        /// Коллекция сущностей системы
+        /// </summary>
+        public HashSet<uint> Entities { get; }
+
+        /// <summary>
+        /// Конструктор базовой системы
+        /// </summary>
+        protected EcsSystem()
+        {
+            Entities = new HashSet<uint>();
+        }
     }
 }
