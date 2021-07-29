@@ -8,11 +8,11 @@
         /// <summary>
         /// Максимальное количество сущностей
         /// </summary>
-        public const int MaxEntitiesCount = 128;
+        public static int MaxEntitiesCount = 128;
 
         /// <summary>
         /// Число компонентов в пуле по умолчанию
         /// </summary>
-        public const int DefaultComponentPoolCapacity = 64;
+        public static int DefaultComponentPoolCapacity = 64;
     }
 }

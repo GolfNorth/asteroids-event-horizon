@@ -89,19 +89,7 @@ namespace NonUnity.Ecs
                 EcsSystem system = pair.Value;
                 BitVector32 systemSignature = _signatures[typeName];
 
-                bool isIntersects = true;
-
-                for (var i = 0; i < 32; i++)
-                {
-                    if ((entitySignature[i] & systemSignature[i]) != systemSignature[i])
-                    {
-                        isIntersects = false;
-
-                        break;
-                    }
-                }
-
-                if (isIntersects)
+                if ((entitySignature.Data & systemSignature.Data) == systemSignature.Data)
                 {
                     system.Entities.Add(entityId);
                 }

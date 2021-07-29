@@ -11,12 +11,12 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Словарь идентификаторов типов комонентов
         /// </summary>
-        private readonly Dictionary<string, byte> _componentTypes;
+        private readonly Dictionary<Type, byte> _componentTypes;
 
         /// <summary>
         /// Словарь пулов компонентов
         /// </summary>
-        private readonly Dictionary<string, IEcsComponentPool> _componentPools;
+        private readonly Dictionary<Type, IEcsComponentPool> _componentPools;
 
         /// <summary>
         /// Следующий идентификатор типа компонента
@@ -28,27 +28,9 @@ namespace NonUnity.Ecs
         /// </summary>
         public EcsComponentManager()
         {
-            _componentTypes = new Dictionary<string, byte>();
-            _componentPools = new Dictionary<string, IEcsComponentPool>();
-        }
-
-        /// <summary>
-        /// Зарегистрировать компонент
-        /// </summary>
-        /// <typeparam name="T">Тип компонента</typeparam>
-        public void RegisterComponent<T>() where T : struct
-        {
-            string typeName = nameof(T);
-
-            if (_componentPools.ContainsKey(typeName))
-            {
-                throw new ArgumentException("Registering component type more than once.");
-            }
-
-            _componentTypes.Add(typeName, _nextComponentType);
-            _componentPools.Add(typeName, new EcsComponentPool<T>());
-
-            _nextComponentType++;
+            _nextComponentType = 1;
+            _componentTypes = new Dictionary<Type, byte>();
+            _componentPools = new Dictionary<Type, IEcsComponentPool>();
         }
 
         /// <summary>
@@ -57,25 +39,24 @@ namespace NonUnity.Ecs
         /// <typeparam name="T">Тип компонента</typeparam>
         public byte GetComponentType<T>() where T : struct
         {
-            string typeName = nameof(T);
+            Type type = typeof(T);
 
-            if (!_componentPools.ContainsKey(typeName))
+            if (!_componentPools.ContainsKey(type))
             {
-                throw new ArgumentException("Component not registered before use.");
+                RegisterComponent<T>();
             }
 
-            return _componentTypes[typeName];
+            return _componentTypes[type];
         }
 
         /// <summary>
         /// Добавить компонент
         /// </summary>
-        /// <param name="entityId">Иденификатор сущности</param>
-        /// <param name="component">Значение компонента</param>
+        /// <param name="entityId">Иденификатор сущности</param>\
         /// <typeparam name="T">Тип компонента</typeparam>
-        public void AddComponent<T>(uint entityId, in T component) where T : struct
+        public ref T AddComponent<T>(uint entityId) where T : struct
         {
-            GetComponentPool<T>().InsertData(entityId, in component);
+            return ref GetComponentPool<T>().CreateData(entityId);
         }
 
         /// <summary>
@@ -104,7 +85,7 @@ namespace NonUnity.Ecs
         /// <param name="entityId">Идентификатор сущности</param>
         public void EntityDestroyed(uint entityId)
         {
-            foreach (KeyValuePair<string, IEcsComponentPool> pair in _componentPools)
+            foreach (KeyValuePair<Type, IEcsComponentPool> pair in _componentPools)
             {
                 IEcsComponentPool pool = pair.Value;
 
@@ -113,19 +94,38 @@ namespace NonUnity.Ecs
         }
 
         /// <summary>
+        /// Зарегистрировать компонент
+        /// </summary>
+        /// <typeparam name="T">Тип компонента</typeparam>
+        private void RegisterComponent<T>() where T : struct
+        {
+            Type type = typeof(T);
+
+            if (_componentPools.ContainsKey(type))
+            {
+                return;
+            }
+
+            _componentTypes.Add(type, _nextComponentType);
+            _componentPools.Add(type, new EcsComponentPool<T>());
+
+            _nextComponentType++;
+        }
+
+        /// <summary>
         /// Получить пул компонента
         /// </summary>
         /// <typeparam name="T">Тип компонента</typeparam>
         private EcsComponentPool<T> GetComponentPool<T>() where T : struct
         {
-            string typeName = nameof(T);
+            Type type = typeof(T);
 
-            if (!_componentPools.ContainsKey(typeName))
+            if (!_componentPools.ContainsKey(type))
             {
-                throw new ArgumentException("Component not registered before use.");
+                RegisterComponent<T>();
             }
 
-            return (EcsComponentPool<T>) _componentPools[typeName];
+            return (EcsComponentPool<T>) _componentPools[type];
         }
     }
 }

@@ -23,6 +23,11 @@ namespace NonUnity.Ecs
         private T[] _components;
 
         /// <summary>
+        /// Свободные компоненты
+        /// </summary>
+        private int[] _freeComponents;
+
+        /// <summary>
         /// Словарь индексов
         /// </summary>
         private readonly Dictionary<uint, int> _entityToIndex;
@@ -38,40 +43,54 @@ namespace NonUnity.Ecs
         private int _componentCount;
 
         /// <summary>
+        /// Количество свободных компонентов
+        /// </summary>
+        private int _freeComponentCount;
+
+        /// <summary>
         /// Конструктор пула компонента
         /// </summary>
         public EcsComponentPool()
         {
             _components = new T[EcsConfig.DefaultComponentPoolCapacity];
+            _freeComponents = new int[EcsConfig.DefaultComponentPoolCapacity];
             _entityToIndex = new Dictionary<uint, int>(EcsConfig.DefaultComponentPoolCapacity);
             _indexToEntity = new Dictionary<int, uint>(EcsConfig.DefaultComponentPoolCapacity);
         }
 
         /// <summary>
-        /// Вставить компонент
+        /// Создать компонент
         /// </summary>
         /// <param name="entityId">Идентификатор сущности</param>
-        /// <param name="component">Значение компонента</param>
-        public void InsertData(uint entityId, in T component)
+        public ref T CreateData(uint entityId)
         {
             if (_entityToIndex.ContainsKey(entityId))
             {
-                throw new ArgumentException("Component added to same entity more than once.");
+                return ref _components[_entityToIndex[entityId]];
             }
 
-            int newIndex = _componentCount;
+            int newIndex;
+
+            if (_freeComponentCount > 0)
+            {
+                newIndex = _freeComponents[--_freeComponentCount];
+            }
+            else
+            {
+                newIndex = _componentCount;
+
+                if (_componentCount == _components.Length)
+                {
+                    Array.Resize(ref _components, _componentCount * 2);
+                }
+
+                _componentCount++;
+            }
 
             _entityToIndex.Add(entityId, newIndex);
             _indexToEntity.Add(newIndex, entityId);
 
-            if (newIndex == _components.Length)
-            {
-                Array.Resize(ref _components, newIndex * 2);
-            }
-
-            _components[newIndex] = component;
-
-            _componentCount++;
+            return ref _components[newIndex];
         }
 
         /// <summary>
@@ -82,19 +101,22 @@ namespace NonUnity.Ecs
         {
             if (!_entityToIndex.ContainsKey(entityId))
             {
-                throw new ArgumentException("Removing non-existent component.");
+                return;
             }
 
             int indexOfRemovedEntity = _entityToIndex[entityId];
-            int indexOfLastElement = _componentCount - 1;
-            _components[indexOfRemovedEntity] = _components[indexOfLastElement];
 
-            uint entityOfLastElement = _indexToEntity[indexOfLastElement];
-            _entityToIndex[entityOfLastElement] = indexOfRemovedEntity;
-            _indexToEntity[indexOfRemovedEntity] = entityOfLastElement;
+            _components[indexOfRemovedEntity] = default;
+
+            if (_freeComponentCount == _freeComponents.Length)
+            {
+                Array.Resize(ref _freeComponents, _freeComponentCount * 2);
+            }
+
+            _freeComponents[_freeComponentCount++] = indexOfRemovedEntity;
 
             _entityToIndex.Remove(entityId);
-            _indexToEntity.Remove(indexOfLastElement);
+            _indexToEntity.Remove(indexOfRemovedEntity);
 
             _componentCount--;
         }
@@ -107,7 +129,7 @@ namespace NonUnity.Ecs
         {
             if (!_entityToIndex.ContainsKey(entityId))
             {
-                throw new ArgumentException("Retrieving non-existent component.");
+                return ref CreateData(entityId);
             }
 
             return ref _components[_entityToIndex[entityId]];

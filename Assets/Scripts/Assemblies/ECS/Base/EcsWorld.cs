@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace NonUnity.Ecs
 {
@@ -23,6 +24,16 @@ namespace NonUnity.Ecs
         private readonly EcsSystemManager _systemManager;
 
         /// <summary>
+        /// Коллекция сущностей
+        /// </summary>
+        private readonly List<uint> _entities;
+
+        /// <summary>
+        /// Коллекция сущностей
+        /// </summary>
+        public IReadOnlyList<uint> Entities => _entities;
+
+        /// <summary>
         /// Конструктор мира сущностей
         /// </summary>
         public EcsWorld()
@@ -30,6 +41,7 @@ namespace NonUnity.Ecs
             _componentManager = new EcsComponentManager();
             _entityManager = new EcsEntityManager();
             _systemManager = new EcsSystemManager();
+            _entities = new List<uint>(EcsConfig.MaxEntitiesCount);
         }
 
         /// <summary>
@@ -38,7 +50,11 @@ namespace NonUnity.Ecs
         /// <returns>Идентификатор сущности</returns>
         public uint CreateEntity()
         {
-            return _entityManager.CreateEntity();
+            uint entityId = _entityManager.CreateEntity();
+
+            _entities.Add(entityId);
+
+            return entityId;
         }
 
         /// <summary>
@@ -50,32 +66,38 @@ namespace NonUnity.Ecs
             _entityManager.DestroyEntity(entityId);
             _componentManager.EntityDestroyed(entityId);
             _systemManager.EntityDestroyed(entityId);
-        }
 
-        /// <summary>
-        /// Зарегистрировать компонент
-        /// </summary>
-        /// <typeparam name="T">Тип компонента</typeparam>
-        public void RegisterComponent<T>() where T : struct
-        {
-            _componentManager.RegisterComponent<T>();
+            _entities.Remove(entityId);
         }
 
         /// <summary>
         /// Добавить компонент
         /// </summary>
         /// <param name="entityId">Идентификатор сущности</param>
-        /// <param name="component">Значение компонента</param>
         /// <typeparam name="T">Тип компонента</typeparam>
-        public void AddComponent<T>(uint entityId, in T component) where T : struct
+        public ref T AddComponent<T>(uint entityId) where T : struct
         {
-            _componentManager.AddComponent<T>(entityId, in component);
+            ref T component = ref _componentManager.AddComponent<T>(entityId);
 
             BitVector32 signature = _entityManager.GetSignature(entityId);
             signature[_componentManager.GetComponentType<T>()] = true;
             _entityManager.SetSignature(entityId, signature);
 
             _systemManager.EntitySignatureChanged(entityId, ref signature);
+
+            return ref component;
+        }
+
+        /// <summary>
+        /// Наличие компонента
+        /// </summary>
+        /// <param name="entityId">Идентификатор сущности</param>
+        /// <typeparam name="T">Тип компонента</typeparam>
+        public bool HasComponent<T>(uint entityId) where T : struct
+        {
+            BitVector32 signature = _entityManager.GetSignature(entityId);
+
+            return signature[_componentManager.GetComponentType<T>()] == true;
         }
 
         /// <summary>

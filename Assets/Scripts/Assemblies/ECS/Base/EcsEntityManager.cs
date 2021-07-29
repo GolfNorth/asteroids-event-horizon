@@ -34,7 +34,7 @@ namespace NonUnity.Ecs
 
             for (uint i = 0; i < EcsConfig.MaxEntitiesCount; i++)
             {
-                _signatures[i] = new BitVector32();
+                _signatures[i] = new BitVector32(0);
                 _availableEntities.Enqueue(i);
             }
         }
