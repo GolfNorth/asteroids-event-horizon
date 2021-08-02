@@ -1,0 +1,17 @@
+{
+    "name": "NonUnity.Game",
+    "rootNamespace": "NonUnity.Game",
+    "references": [
+        "GUID:c096e29ac285bc64d8e0d100fc851d1c",
+        "GUID:1e2b8f5e53b68da4c99c63cd506dfeeb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
