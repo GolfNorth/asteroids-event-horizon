@@ -63,6 +63,8 @@ namespace NonUnity.Collision
                     return EdgeAndCircleContact((EdgeShape) shapeA, (CircleShape) shapeB);
                 case ContactMatch.EdgeEdge:
                     return EdgeAndEdgeContact((EdgeShape) shapeA, (EdgeShape) shapeB);
+                case ContactMatch.EdgePolygon:
+                    return PolygonAndEdgeContact((PolygonShape) shapeB, (EdgeShape) shapeA);
                 case ContactMatch.PolygonPoint:
                     return PolygonAndPointContact((PolygonShape) shapeA, ((PointShape) shapeB).Position);
                 case ContactMatch.PolygonCircle:
@@ -84,7 +86,7 @@ namespace NonUnity.Collision
         {
             float distance = Vector2.DistanceSquared(point, circle.Position);
 
-            return distance <= circle.Radius * circle.Radius;
+            return distance <= circle.Radius * circle.Radius * 2;
         }
 
         private static bool EdgeAndEdgeContact(EdgeShape edgeA, EdgeShape edgeB)
@@ -107,7 +109,7 @@ namespace NonUnity.Collision
             float d2 = Vector2.DistanceSquared(point, edge.PointB);
             float edgeLenght = Vector2.DistanceSquared(edge.PointA, edge.PointB);
 
-            return Math.Abs(d1 + d2 - edgeLenght) < 0.01f;
+            return Math.Abs((d1 + d2) * 2 - edgeLenght) < 0.01f;
         }
 
         private static bool EdgeAndCircleContact(EdgeShape edge, CircleShape circle)
@@ -134,7 +136,7 @@ namespace NonUnity.Collision
 
             float distance = Vector2.DistanceSquared(closest, circle.Position);
 
-            return distance <= circle.Radius * circle.Radius;
+            return distance <= circle.Radius * circle.Radius * 2;
         }
 
         private static bool PolygonAndPointContact(PolygonShape polygon, Vector2 point)

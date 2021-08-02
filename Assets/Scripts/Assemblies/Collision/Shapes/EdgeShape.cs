@@ -146,12 +146,12 @@ namespace NonUnity.Collision
         /// <summary>
         /// Переместить границу
         /// </summary>
-        /// <param name="deltaPosition">Изменение позиции</param>
-        public void Translate(Vector2 deltaPosition)
+        /// <param name="deltaTranslation">Изменение позиции</param>
+        public void Translate(Vector2 deltaTranslation)
         {
-            _position += deltaPosition;
-            _pointA += deltaPosition;
-            _pointB += deltaPosition;
+            _position += deltaTranslation;
+            _pointA += deltaTranslation;
+            _pointB += deltaTranslation;
             _dirty = true;
         }
 

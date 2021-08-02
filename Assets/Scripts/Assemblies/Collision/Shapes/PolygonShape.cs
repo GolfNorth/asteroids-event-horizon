@@ -124,14 +124,14 @@ namespace NonUnity.Collision
         /// <summary>
         /// Переместить полигон
         /// </summary>
-        /// <param name="deltaPosition">Изменение позиции</param>
-        public void Translate(Vector2 deltaPosition)
+        /// <param name="deltaTranslation">Изменение позиции</param>
+        public void Translate(Vector2 deltaTranslation)
         {
-            _position += deltaPosition;
+            _position += deltaTranslation;
 
             for (var i = 0; i < _points.Length; i++)
             {
-                _points[i] += deltaPosition;
+                _points[i] += deltaTranslation;
             }
 
             _dirty = true;

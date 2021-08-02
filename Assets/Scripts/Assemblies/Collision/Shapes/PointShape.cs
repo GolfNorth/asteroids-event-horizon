@@ -91,10 +91,10 @@ namespace NonUnity.Collision
         /// <summary>
         /// Переместить точку
         /// </summary>
-        /// <param name="deltaPosition">Изменение позиции</param>
-        public void Translate(Vector2 deltaPosition)
+        /// <param name="deltaTranslation">Изменение позиции</param>
+        public void Translate(Vector2 deltaTranslation)
         {
-            _position += deltaPosition;
+            _position += deltaTranslation;
             _dirty = true;
         }
 

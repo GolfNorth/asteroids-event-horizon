@@ -41,7 +41,7 @@ namespace NonUnity.Collision
         /// <summary>
         /// Переместить форму
         /// </summary>
-        /// <param name="deltaPosition">Изменение позиции</param>
-        void Translate(Vector2 deltaPosition);
+        /// <param name="deltaTranslation">Изменение позиции</param>
+        void Translate(Vector2 deltaTranslation);
     }
 }
