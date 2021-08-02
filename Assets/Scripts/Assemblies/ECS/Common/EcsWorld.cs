@@ -120,10 +120,11 @@ namespace NonUnity.Ecs
         /// Получить компонент
         /// </summary>
         /// <param name="entityId">Идентификатор сущности</param>
+        /// <param name="forceCreate">Принудительно создать компонент</param>
         /// <typeparam name="T">Тип компонента</typeparam>
-        public ref T GetComponent<T>(uint entityId) where T : struct
+        public ref T GetComponent<T>(uint entityId, bool forceCreate = false) where T : struct
         {
-            return ref _componentManager.GetComponent<T>(entityId);
+            return ref _componentManager.GetComponent<T>(entityId, forceCreate);
         }
 
         /// <summary>

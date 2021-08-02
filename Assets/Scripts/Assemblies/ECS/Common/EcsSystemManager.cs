@@ -37,7 +37,7 @@ namespace NonUnity.Ecs
         {
             string typeName = nameof(T);
 
-            if (!_systems.ContainsKey(typeName))
+            if (_systems.ContainsKey(typeName))
             {
                 throw new ArgumentException("Registering system more than once.");
             }

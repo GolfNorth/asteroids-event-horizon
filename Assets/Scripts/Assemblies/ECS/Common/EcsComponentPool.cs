@@ -125,11 +125,17 @@ namespace NonUnity.Ecs
         /// Получить значение компонента
         /// </summary>
         /// <param name="entityId">Идентификатор сущности</param>
-        public ref T GetData(uint entityId)
+        /// <param name="forceCreate">Принудительно создать компонент</param>
+        public ref T GetData(uint entityId, bool forceCreate)
         {
             if (!_entityToIndex.ContainsKey(entityId))
             {
-                return ref CreateData(entityId);
+                if (forceCreate)
+                {
+                    return ref CreateData(entityId);
+                }
+
+                throw new ArgumentException("Retrieving non-existent component.");
             }
 
             return ref _components[_entityToIndex[entityId]];

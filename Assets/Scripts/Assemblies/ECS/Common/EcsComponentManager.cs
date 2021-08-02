@@ -64,9 +64,10 @@ namespace NonUnity.Ecs
         /// </summary>
         /// <param name="entityId">Идентификатор сущности</param>
         /// <typeparam name="T">Тип компонента</typeparam>
-        public ref T GetComponent<T>(uint entityId) where T : struct
+        /// <param name="forceCreate">Принудительно создать компонент</param>
+        public ref T GetComponent<T>(uint entityId, bool forceCreate) where T : struct
         {
-            return ref GetComponentPool<T>().GetData(entityId);
+            return ref GetComponentPool<T>().GetData(entityId, forceCreate);
         }
 
         /// <summary>
