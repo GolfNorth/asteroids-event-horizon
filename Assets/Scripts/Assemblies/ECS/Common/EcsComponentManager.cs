@@ -19,6 +19,11 @@ namespace NonUnity.Ecs
         private readonly Dictionary<Type, IEcsComponentPool> _componentPools;
 
         /// <summary>
+        /// Число компонентов в пуле
+        /// </summary>
+        private readonly int _componentPoolCapacity;
+
+        /// <summary>
         /// Следующий идентификатор типа компонента
         /// </summary>
         private byte _nextComponentType;
@@ -26,8 +31,10 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Конструктор менеджера компонентов
         /// </summary>
-        public EcsComponentManager()
+        /// <param name="settings">Конфигуратор мира сущностей</param>
+        public EcsComponentManager(in EcsSettings settings)
         {
+            _componentPoolCapacity = settings.ComponentPoolCapacity;
             _nextComponentType = 1;
             _componentTypes = new Dictionary<Type, byte>();
             _componentPools = new Dictionary<Type, IEcsComponentPool>();
@@ -108,7 +115,7 @@ namespace NonUnity.Ecs
             }
 
             _componentTypes.Add(type, _nextComponentType);
-            _componentPools.Add(type, new EcsComponentPool<T>());
+            _componentPools.Add(type, new EcsComponentPool<T>(_componentPoolCapacity));
 
             _nextComponentType++;
         }

@@ -20,6 +20,11 @@ namespace NonUnity.Ecs
         private readonly BitVector32[] _signatures;
 
         /// <summary>
+        /// Максимальное количество сущностей
+        /// </summary>
+        private readonly int _maxEntitiesCount;
+
+        /// <summary>
         /// Количество задействованных сущностей
         /// </summary>
         private int _livingEntityCount;
@@ -27,12 +32,14 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Конструктор менеджера сущностей
         /// </summary>
-        public EcsEntityManager()
+        /// <param name="settings">Конфигуратор мира сущностей</param>
+        public EcsEntityManager(in EcsSettings settings)
         {
-            _signatures = new BitVector32[EcsConfig.MaxEntitiesCount];
-            _availableEntities = new Queue<uint>(EcsConfig.MaxEntitiesCount);
+            _maxEntitiesCount = settings.MaxEntitiesCount;
+            _signatures = new BitVector32[settings.MaxEntitiesCount];
+            _availableEntities = new Queue<uint>(settings.MaxEntitiesCount);
 
-            for (uint i = 0; i < EcsConfig.MaxEntitiesCount; i++)
+            for (uint i = 0; i < settings.MaxEntitiesCount; i++)
             {
                 _signatures[i] = new BitVector32(0);
                 _availableEntities.Enqueue(i);
@@ -44,7 +51,7 @@ namespace NonUnity.Ecs
         /// </summary>
         public uint CreateEntity()
         {
-            if (_livingEntityCount > EcsConfig.MaxEntitiesCount)
+            if (_livingEntityCount > _maxEntitiesCount)
             {
                 throw new OverflowException("Too many entities in existence.");
             }
@@ -62,7 +69,7 @@ namespace NonUnity.Ecs
         /// <param name="entityId">Идентификатор сущности</param>
         public void DestroyEntity(uint entityId)
         {
-            if (entityId >= EcsConfig.MaxEntitiesCount)
+            if (entityId >= _maxEntitiesCount)
             {
                 throw new IndexOutOfRangeException("Entity out of range.");
             }
@@ -81,7 +88,7 @@ namespace NonUnity.Ecs
         /// <param name="signature">Сигнатура сущности</param>
         public void SetSignature(uint entityId, BitVector32 signature)
         {
-            if (entityId >= EcsConfig.MaxEntitiesCount)
+            if (entityId >= _maxEntitiesCount)
             {
                 throw new IndexOutOfRangeException("Entity out of range.");
             }
@@ -95,7 +102,7 @@ namespace NonUnity.Ecs
         /// <param name="entityId">Идентификатор сущности</param>
         public BitVector32 GetSignature(uint entityId)
         {
-            if (entityId >= EcsConfig.MaxEntitiesCount)
+            if (entityId >= _maxEntitiesCount)
             {
                 throw new IndexOutOfRangeException("Entity out of range.");
             }

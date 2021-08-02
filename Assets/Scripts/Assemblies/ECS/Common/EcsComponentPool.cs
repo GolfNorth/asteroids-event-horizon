@@ -33,11 +33,6 @@ namespace NonUnity.Ecs
         private readonly Dictionary<uint, int> _entityToIndex;
 
         /// <summary>
-        /// Словарь сущностей
-        /// </summary>
-        private readonly Dictionary<int, uint> _indexToEntity;
-
-        /// <summary>
         /// Количество задействованных компонентов
         /// </summary>
         private int _componentCount;
@@ -50,12 +45,12 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Конструктор пула компонента
         /// </summary>
-        public EcsComponentPool()
+        /// <param name="componentPoolCapacity">Число компонентов в пуле</param>
+        public EcsComponentPool(int componentPoolCapacity)
         {
-            _components = new T[EcsConfig.DefaultComponentPoolCapacity];
-            _freeComponents = new int[EcsConfig.DefaultComponentPoolCapacity];
-            _entityToIndex = new Dictionary<uint, int>(EcsConfig.DefaultComponentPoolCapacity);
-            _indexToEntity = new Dictionary<int, uint>(EcsConfig.DefaultComponentPoolCapacity);
+            _components = new T[componentPoolCapacity];
+            _freeComponents = new int[componentPoolCapacity];
+            _entityToIndex = new Dictionary<uint, int>(componentPoolCapacity);
         }
 
         /// <summary>
@@ -88,7 +83,6 @@ namespace NonUnity.Ecs
             }
 
             _entityToIndex.Add(entityId, newIndex);
-            _indexToEntity.Add(newIndex, entityId);
 
             return ref _components[newIndex];
         }
@@ -116,7 +110,6 @@ namespace NonUnity.Ecs
             _freeComponents[_freeComponentCount++] = indexOfRemovedEntity;
 
             _entityToIndex.Remove(entityId);
-            _indexToEntity.Remove(indexOfRemovedEntity);
 
             _componentCount--;
         }

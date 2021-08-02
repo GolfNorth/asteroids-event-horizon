@@ -22,9 +22,10 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Конструктор менеджера систем
         /// </summary>
-        public EcsSystemManager()
+        /// <param name="settings">Конфигуратор мира сущностей</param>
+        public EcsSystemManager(in EcsSettings settings)
         {
-            _signatures = new Dictionary<string, BitVector32>(EcsConfig.MaxEntitiesCount);
+            _signatures = new Dictionary<string, BitVector32>(settings.MaxEntitiesCount);
             _systems = new Dictionary<string, EcsSystem>();
         }
 

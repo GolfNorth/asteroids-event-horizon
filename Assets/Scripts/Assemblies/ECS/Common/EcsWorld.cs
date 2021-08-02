@@ -36,12 +36,22 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Конструктор мира сущностей
         /// </summary>
-        public EcsWorld()
+        /// <param name="settings">Конфигуратор мира сущностей</param>
+        public EcsWorld(in EcsSettings settings = default)
         {
-            _componentManager = new EcsComponentManager();
-            _entityManager = new EcsEntityManager();
-            _systemManager = new EcsSystemManager();
-            _entities = new List<uint>(EcsConfig.MaxEntitiesCount);
+            EcsSettings finalSettings = new EcsSettings
+            {
+                MaxEntitiesCount = settings.MaxEntitiesCount <= 0
+                    ? EcsSettings.DefaultMaxEntitiesCount
+                    : settings.MaxEntitiesCount,
+                ComponentPoolCapacity = settings.ComponentPoolCapacity <= 0
+                    ? EcsSettings.DefaultComponentPoolCapacity
+                    : settings.ComponentPoolCapacity,
+            };
+            _componentManager = new EcsComponentManager(in finalSettings);
+            _entityManager = new EcsEntityManager(in finalSettings);
+            _systemManager = new EcsSystemManager(in finalSettings);
+            _entities = new List<uint>(finalSettings.MaxEntitiesCount);
         }
 
         /// <summary>
