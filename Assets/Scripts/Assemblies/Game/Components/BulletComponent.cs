@@ -6,8 +6,8 @@
     public struct BulletComponent
     {
         /// <summary>
-        /// Время готовности выстрела
+        /// Родительская сущность
         /// </summary>
-        public float NextFire;
+        public uint Owner;
     }
 }

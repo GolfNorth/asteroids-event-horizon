@@ -6,23 +6,13 @@
     public struct LaserComponent
     {
         /// <summary>
-        /// Количество зарядов
+        /// Родительская сущность
         /// </summary>
-        public int Charges;
+        public uint Owner;
 
         /// <summary>
         /// Время окончания выстрела
         /// </summary>
         public float EndFire;
-
-        /// <summary>
-        /// Время готовности выстрела
-        /// </summary>
-        public float NextFire;
-
-        /// <summary>
-        /// Время перезарядки заряда
-        /// </summary>
-        public float NextCharge;
     }
 }

@@ -7,6 +7,7 @@
     {
         Small = 0,
         Middle = 1,
-        Large = 2
+        Large = 2,
+        Random = 3
     }
 }
