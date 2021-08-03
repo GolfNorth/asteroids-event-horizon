@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace NonUnity.Collision.Test
 {
     [TestFixture]
-    public class PointShapeTest
+    public sealed class PointShapeTest
     {
         [Test]
         public void AABB_CreateShape_ValidAABB()

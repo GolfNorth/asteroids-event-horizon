@@ -3,7 +3,7 @@
 namespace NonUnity.Collision.Test
 {
     [TestFixture]
-    public class AABBTest
+    public sealed class AABBTest
     {
         [Test]
         public void Intersect_NonIntersecting_ReturnFalse()

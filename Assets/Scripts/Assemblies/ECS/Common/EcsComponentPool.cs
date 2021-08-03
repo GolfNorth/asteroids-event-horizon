@@ -15,7 +15,7 @@ namespace NonUnity.Ecs
     /// Пул компонента
     /// </summary>
     /// <typeparam name="T">Тип компонента</typeparam>
-    internal class EcsComponentPool<T> : IEcsComponentPool where T : struct
+    internal sealed class EcsComponentPool<T> : IEcsComponentPool where T : struct
     {
         /// <summary>
         /// Массив компонентов

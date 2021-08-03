@@ -4,7 +4,7 @@ using Vector2 = System.Numerics.Vector2;
 namespace NonUnity.Collision.Test
 {
     [TestFixture]
-    public class EdgeShapeTest
+    public sealed class EdgeShapeTest
     {
         [Test]
         public void AABB_CreateShape_ValidAABB()

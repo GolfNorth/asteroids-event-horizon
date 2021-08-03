@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace NonUnity.Collision.Test
 {
     [TestFixture]
-    public class CollisionTest
+    public sealed class CollisionTest
     {
         [Test]
         public void Intersect_CircleAndPoint_ReturnTrue()

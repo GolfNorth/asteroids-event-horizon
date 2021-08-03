@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace NonUnity.Collision.Test
 {
     [TestFixture]
-    public class PolygonShapeTest
+    public sealed class PolygonShapeTest
     {
         [Test]
         public void AABB_CreateShape_ValidAABB()
