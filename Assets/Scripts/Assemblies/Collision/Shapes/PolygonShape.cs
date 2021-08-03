@@ -91,6 +91,14 @@ namespace NonUnity.Collision
         }
 
         /// <summary>
+        /// Конструктор полигона
+        /// </summary>
+        /// <param name="points">Точки полигона</param>
+        public PolygonShape(Vector2[] points) : this(Vector2.Zero, points)
+        {
+        }
+
+        /// <summary>
         /// Установить позицию и поворот полигона
         /// </summary>
         public void Set(Vector2 position, float rotation)
