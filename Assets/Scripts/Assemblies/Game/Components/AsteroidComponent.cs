@@ -1,12 +1,12 @@
 ﻿namespace NonUnity.Game
 {
     /// <summary>
-    /// Компонент астеройда
+    /// Компонент астероида
     /// </summary>
     public struct AsteroidComponent
     {
         /// <summary>
-        /// Размер астеройда
+        /// Размер астероида
         /// </summary>
         public AsteroidSize Size;
     }

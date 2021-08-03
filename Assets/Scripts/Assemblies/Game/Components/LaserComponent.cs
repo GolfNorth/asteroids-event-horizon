@@ -11,8 +11,18 @@
         public int Charges;
 
         /// <summary>
-        /// Время следующего выстрела
+        /// Время окончания выстрела
         /// </summary>
-        public float Cooldown;
+        public float EndFire;
+
+        /// <summary>
+        /// Время готовности выстрела
+        /// </summary>
+        public float NextFire;
+
+        /// <summary>
+        /// Время перезарядки заряда
+        /// </summary>
+        public float NextCharge;
     }
 }

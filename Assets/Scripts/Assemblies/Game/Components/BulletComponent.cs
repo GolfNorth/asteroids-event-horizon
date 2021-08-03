@@ -6,8 +6,8 @@
     public struct BulletComponent
     {
         /// <summary>
-        /// Время следующего выстрела
+        /// Время готовности выстрела
         /// </summary>
-        public float Cooldown;
+        public float NextFire;
     }
 }

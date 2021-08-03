@@ -1,13 +1,12 @@
 ﻿namespace NonUnity.Game
 {
     /// <summary>
-    /// Размер астеройда
+    /// Размер астероида
     /// </summary>
     public enum AsteroidSize : byte
     {
-        None = 0,
-        Large = 1,
-        Middle = 2,
-        Small = 3
+        Small = 0,
+        Middle = 1,
+        Large = 2
     }
 }
