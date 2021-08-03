@@ -32,14 +32,14 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Конструктор менеджера сущностей
         /// </summary>
-        /// <param name="settings">Конфигуратор мира сущностей</param>
-        public EcsEntityManager(in EcsSettings settings)
+        /// <param name="world">Пространство сущностей</param>
+        public EcsEntityManager(EcsWorld world)
         {
-            _maxEntitiesCount = settings.MaxEntitiesCount;
-            _signatures = new BitVector32[settings.MaxEntitiesCount];
-            _availableEntities = new Queue<uint>(settings.MaxEntitiesCount);
+            _maxEntitiesCount = world.Settings.MaxEntitiesCount;
+            _signatures = new BitVector32[world.Settings.MaxEntitiesCount];
+            _availableEntities = new Queue<uint>(world.Settings.MaxEntitiesCount);
 
-            for (uint i = 0; i < settings.MaxEntitiesCount; i++)
+            for (uint i = 0; i < world.Settings.MaxEntitiesCount; i++)
             {
                 _signatures[i] = new BitVector32(0);
                 _availableEntities.Enqueue(i);

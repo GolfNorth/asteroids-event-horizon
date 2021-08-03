@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using NonUnity.Ecs;
 using NUnit.Framework;
 
@@ -10,12 +9,8 @@ namespace NonUnity.ECS.Test
         public int Value;
     }
 
-    internal class SomeSystem : EcsSystem
-    {
-    }
-
     [TestFixture]
-    public class EcsWorldTest
+    public sealed class EcsWorldTest
     {
         private EcsWorld _world;
 
@@ -28,7 +23,9 @@ namespace NonUnity.ECS.Test
         [Test]
         public void Constructor_NewWorld_HasNoEntity()
         {
-            int entityCount = _world.Entities.Count;
+            EcsFilter filter = new EcsFilter(_world);
+
+            int entityCount = filter.Entities.Count;
 
             Assert.AreEqual(0, entityCount);
         }
@@ -36,9 +33,10 @@ namespace NonUnity.ECS.Test
         [Test]
         public void CreateEntity_NewEntity_HasEntity()
         {
+            EcsFilter filter = new EcsFilter(_world);
             uint entity = _world.CreateEntity();
 
-            int entityCount = _world.Entities.Count;
+            int entityCount = filter.Entities.Count;
 
             Assert.AreEqual(1, entityCount);
         }
@@ -56,10 +54,11 @@ namespace NonUnity.ECS.Test
         [Test]
         public void DestroyEntity_NewEntity_HasNoEntity()
         {
+            EcsFilter filter = new EcsFilter(_world);
             uint entity = _world.CreateEntity();
 
             _world.DestroyEntity(entity);
-            int entityCount = _world.Entities.Count;
+            int entityCount = filter.Entities.Count;
 
             Assert.AreEqual(0, entityCount);
         }
@@ -105,57 +104,6 @@ namespace NonUnity.ECS.Test
             bool hasComponent = _world.HasComponent<SomeComponent>(entity);
 
             Assert.IsFalse(hasComponent);
-        }
-
-        [Test]
-        public void GetComponentType_CheckType_ValidType()
-        {
-            int componentType = _world.GetComponentType<SomeComponent>();
-
-            Assert.AreEqual(1, componentType);
-        }
-
-        [Test]
-        public void RegisterSystem_NewSystem_DoesNotThrow()
-        {
-            EcsSystem system = new SomeSystem();
-
-            TestDelegate registerSystem = () => _world.RegisterSystem(system);
-
-            Assert.DoesNotThrow(registerSystem);
-        }
-
-        [Test]
-        public void RegisterSystem_DoubleSystem_ThrowError()
-        {
-            EcsSystem system = new SomeSystem();
-
-            _world.RegisterSystem(system);
-            TestDelegate registerSystem = () => _world.RegisterSystem(system);
-
-            Assert.Throws<ArgumentException>(registerSystem);
-        }
-
-        [Test]
-        public void SetSystemSignature_NewSystem_DoesNotThrow()
-        {
-            EcsSystem system = new SomeSystem();
-            BitVector32 signature = new BitVector32();
-
-            _world.RegisterSystem(system);
-            TestDelegate setSystemSignature = () => _world.SetSystemSignature<SomeSystem>(ref signature);
-
-            Assert.DoesNotThrow(setSystemSignature);
-        }
-
-        [Test]
-        public void SetSystemSignature_UnregisteredSystem_ThrowError()
-        {
-            BitVector32 signature = new BitVector32();
-
-            TestDelegate setSystemSignature = () => _world.SetSystemSignature<SomeSystem>(ref signature);
-
-            Assert.Throws<ArgumentException>(setSystemSignature);
         }
     }
 }

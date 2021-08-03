@@ -4,10 +4,15 @@ using System.Collections.Specialized;
 namespace NonUnity.Ecs
 {
     /// <summary>
-    /// Мир сущностей
+    /// Пространство сущностей
     /// </summary>
     public sealed class EcsWorld
     {
+        /// <summary>
+        /// Конфигуратор пространства сущностей
+        /// </summary>
+        internal readonly EcsSettings Settings;
+
         /// <summary>
         /// Менеджер компонентов
         /// </summary>
@@ -19,27 +24,17 @@ namespace NonUnity.Ecs
         private readonly EcsEntityManager _entityManager;
 
         /// <summary>
-        /// Менеджер систем
+        /// Менеджер фильтров
         /// </summary>
-        private readonly EcsSystemManager _systemManager;
-
-        /// <summary>
-        /// Коллекция сущностей
-        /// </summary>
-        private readonly List<uint> _entities;
-
-        /// <summary>
-        /// Коллекция сущностей
-        /// </summary>
-        public IReadOnlyList<uint> Entities => _entities;
+        private readonly EcsFilterManager _filterManager;
 
         /// <summary>
         /// Конструктор мира сущностей
         /// </summary>
-        /// <param name="settings">Конфигуратор мира сущностей</param>
+        /// <param name="settings">Конфигуратор пространства сущностей</param>
         public EcsWorld(in EcsSettings settings = default)
         {
-            EcsSettings finalSettings = new EcsSettings
+            Settings = new EcsSettings
             {
                 MaxEntitiesCount = settings.MaxEntitiesCount <= 0
                     ? EcsSettings.DefaultMaxEntitiesCount
@@ -48,10 +43,9 @@ namespace NonUnity.Ecs
                     ? EcsSettings.DefaultComponentPoolCapacity
                     : settings.ComponentPoolCapacity,
             };
-            _componentManager = new EcsComponentManager(in finalSettings);
-            _entityManager = new EcsEntityManager(in finalSettings);
-            _systemManager = new EcsSystemManager(in finalSettings);
-            _entities = new List<uint>(finalSettings.MaxEntitiesCount);
+            _componentManager = new EcsComponentManager(this);
+            _entityManager = new EcsEntityManager(this);
+            _filterManager = new EcsFilterManager(this);
         }
 
         /// <summary>
@@ -61,8 +55,9 @@ namespace NonUnity.Ecs
         public uint CreateEntity()
         {
             uint entityId = _entityManager.CreateEntity();
+            BitVector32 signature = _entityManager.GetSignature(entityId);
 
-            _entities.Add(entityId);
+            _filterManager.EntitySignatureChanged(entityId, ref signature);
 
             return entityId;
         }
@@ -75,9 +70,7 @@ namespace NonUnity.Ecs
         {
             _entityManager.DestroyEntity(entityId);
             _componentManager.EntityDestroyed(entityId);
-            _systemManager.EntityDestroyed(entityId);
-
-            _entities.Remove(entityId);
+            _filterManager.EntityDestroyed(entityId);
         }
 
         /// <summary>
@@ -93,7 +86,7 @@ namespace NonUnity.Ecs
             signature[_componentManager.GetComponentType<T>()] = true;
             _entityManager.SetSignature(entityId, signature);
 
-            _systemManager.EntitySignatureChanged(entityId, ref signature);
+            _filterManager.EntitySignatureChanged(entityId, ref signature);
 
             return ref component;
         }
@@ -123,7 +116,7 @@ namespace NonUnity.Ecs
             signature[_componentManager.GetComponentType<T>()] = false;
             _entityManager.SetSignature(entityId, signature);
 
-            _systemManager.EntitySignatureChanged(entityId, ref signature);
+            _filterManager.EntitySignatureChanged(entityId, ref signature);
         }
 
         /// <summary>
@@ -141,29 +134,69 @@ namespace NonUnity.Ecs
         /// Получить идентификатор типа компонента
         /// </summary>
         /// <typeparam name="T">Тип компонента</typeparam>
-        public byte GetComponentType<T>() where T : struct
+        internal byte GetComponentType<T>() where T : struct
         {
             return _componentManager.GetComponentType<T>();
         }
 
         /// <summary>
-        /// Зарегистрировать систему
+        /// Добавить фильтр
         /// </summary>
-        /// <param name="system">Экземпляр системы</param>
-        /// <typeparam name="T">Тип системы</typeparam>
-        public void RegisterSystem<T>(T system) where T : EcsSystem
+        /// <returns>Сигнатура фильтра</returns>
+        internal BitVector32 AddFilter()
         {
-            _systemManager.RegisterSystem<T>(system);
+            return _filterManager.AddFilter();
         }
 
         /// <summary>
-        /// Задать сигнатуру системы
+        /// Добавить фильтр
         /// </summary>
-        /// <param name="signature">Сигнатура системы</param>
-        /// <typeparam name="T">Тип системы</typeparam>
-        public void SetSystemSignature<T>(ref BitVector32 signature) where T : EcsSystem
+        /// <typeparam name="T">Тип компонента</typeparam>
+        /// <returns>Сигнатура фильтра</returns>
+        internal BitVector32 AddFilter<T>() where T : struct
         {
-            _systemManager.SetSignature<T>(ref signature);
+            return _filterManager.AddFilter<T>();
+        }
+
+        /// <summary>
+        /// Добавить фильтр
+        /// </summary>
+        /// <typeparam name="T1">Тип компонента</typeparam>
+        /// <typeparam name="T2">Тип компонента</typeparam>
+        /// <returns>Сигнатура фильтра</returns>
+        internal BitVector32 AddFilter<T1, T2>() where T1 : struct where T2 : struct
+        {
+            return _filterManager.AddFilter<T1, T2>();
+        }
+
+        /// <summary>
+        /// Добавить фильтр
+        /// </summary>
+        /// <typeparam name="T1">Тип компонента</typeparam>
+        /// <typeparam name="T2">Тип компонента</typeparam>
+        /// <typeparam name="T3">Тип компонента</typeparam>
+        /// <returns>Сигнатура фильтра</returns>
+        internal BitVector32 AddFilter<T1, T2, T3>() where T1 : struct where T2 : struct where T3 : struct
+        {
+            return _filterManager.AddFilter<T1, T2, T3>();
+        }
+
+        /// <summary>
+        /// Удалить фильтр
+        /// </summary>
+        /// <param name="signature">Сигнатура фильтра</param>
+        internal void RemoveFilter(BitVector32 signature)
+        {
+            _filterManager.RemoveFilter(signature);
+        }
+
+        /// <summary>
+        /// Получить сущности
+        /// </summary>
+        /// <param name="signature">Сигнатура фильтра</param>
+        internal IReadOnlyCollection<uint> GetEntities(BitVector32 signature)
+        {
+            return _filterManager.GetEntities(signature);
         }
     }
 }

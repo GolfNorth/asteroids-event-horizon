@@ -1,7 +1,7 @@
 ﻿namespace NonUnity.Ecs
 {
     /// <summary>
-    /// Конфигуратор мира сущностей
+    /// Конфигуратор пространства сущностей
     /// </summary>
     public struct EcsSettings
     {

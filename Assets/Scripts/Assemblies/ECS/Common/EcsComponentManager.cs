@@ -31,10 +31,10 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Конструктор менеджера компонентов
         /// </summary>
-        /// <param name="settings">Конфигуратор мира сущностей</param>
-        public EcsComponentManager(in EcsSettings settings)
+        /// <param name="world">Пространство сущностей</param>
+        public EcsComponentManager(EcsWorld world)
         {
-            _componentPoolCapacity = settings.ComponentPoolCapacity;
+            _componentPoolCapacity = world.Settings.ComponentPoolCapacity;
             _nextComponentType = 1;
             _componentTypes = new Dictionary<Type, byte>();
             _componentPools = new Dictionary<Type, IEcsComponentPool>();
