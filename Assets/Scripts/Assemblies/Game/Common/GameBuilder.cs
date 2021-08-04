@@ -108,7 +108,7 @@ namespace NonUnity.Game
         /// Установить конфигурацию НЛО
         /// </summary>
         /// <param name="ufoSettings">Конфигурация НЛО</param>
-        public GameBuilder SetAsteroidSettings(in UfoSettings ufoSettings)
+        public GameBuilder SetUfoSettings(in UfoSettings ufoSettings)
         {
             _ufoSettings = ufoSettings;
 
