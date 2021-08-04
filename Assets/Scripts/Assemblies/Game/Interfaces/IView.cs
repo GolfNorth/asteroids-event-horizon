@@ -8,23 +8,28 @@ namespace NonUnity.Game
     public interface IView
     {
         /// <summary>
-        /// Воскресить объект
-        /// </summary>
-        void Revive();
-
-        /// <summary>
-        /// Уничтожить объект
-        /// </summary>
-        void Destroy();
-
-        /// <summary>
         /// Позиция объекта
         /// </summary>
         Vector2 Position { set; }
 
         /// <summary>
-        /// Поворот объейта
+        /// Поворот объекта
         /// </summary>
         float Rotation { set; }
+
+        /// <summary>
+        /// Активировать объект
+        /// </summary>
+        void Activate();
+
+        /// <summary>
+        /// Деактивировать объект
+        /// </summary>
+        void Deactivate();
+
+        /// <summary>
+        /// Уничтожить объект
+        /// </summary>
+        void Destroy();
     }
 }
