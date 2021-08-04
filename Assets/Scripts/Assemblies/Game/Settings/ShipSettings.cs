@@ -1,10 +1,12 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace NonUnity.Game
 {
     /// <summary>
     /// Конфигурация корабля
     /// </summary>
+    [Serializable]
     public struct ShipSettings
     {
         /// <summary>

@@ -1,10 +1,12 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace NonUnity.Game
 {
     /// <summary>
     /// Конфигурация НЛО
     /// </summary>
+    [Serializable]
     public struct UfoSettings
     {
         /// <summary>

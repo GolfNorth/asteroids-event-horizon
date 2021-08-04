@@ -1,24 +1,27 @@
-﻿namespace NonUnity.Game
+﻿using System;
+
+namespace NonUnity.Game
 {
     /// <summary>
     /// Конфигурация астероида в зависимости от размера
     /// </summary>
-    public readonly struct AsteroidSizeSettings
+    [Serializable]
+    public struct AsteroidSizeSettings
     {
         /// <summary>
         /// Радиус астероида
         /// </summary>
-        public readonly float Radius;
+        public float Radius;
 
         /// <summary>
         /// Минимальная скорость
         /// </summary>
-        public readonly float MinSpeed;
+        public float MinSpeed;
 
         /// <summary>
         /// Максимальная скорость
         /// </summary>
-        public readonly float MaxSpeed;
+        public float MaxSpeed;
 
         /// <summary>
         /// Конструктор конфигурации астероида
@@ -37,6 +40,7 @@
     /// <summary>
     /// Конфигурация астероидов
     /// </summary>
+    [Serializable]
     public struct AsteroidSettings
     {
         /// <summary>
