@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace NonUnity.Ecs
 {
@@ -11,7 +12,7 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Словарь идентификаторов типов комонентов
         /// </summary>
-        private readonly Dictionary<Type, byte> _componentTypes;
+        private readonly Dictionary<Type, int> _componentTypes;
 
         /// <summary>
         /// Словарь пулов компонентов
@@ -26,7 +27,7 @@ namespace NonUnity.Ecs
         /// <summary>
         /// Следующий идентификатор типа компонента
         /// </summary>
-        private byte _nextComponentType;
+        private int _nextComponentType;
 
         /// <summary>
         /// Конструктор менеджера компонентов
@@ -36,7 +37,7 @@ namespace NonUnity.Ecs
         {
             _componentPoolCapacity = world.Settings.ComponentPoolCapacity;
             _nextComponentType = 1;
-            _componentTypes = new Dictionary<Type, byte>();
+            _componentTypes = new Dictionary<Type, int>();
             _componentPools = new Dictionary<Type, IEcsComponentPool>();
         }
 
@@ -44,7 +45,7 @@ namespace NonUnity.Ecs
         /// Получить идентификатор типа компонента
         /// </summary>
         /// <typeparam name="T">Тип компонента</typeparam>
-        public byte GetComponentType<T>() where T : struct
+        public int GetComponentType<T>() where T : struct
         {
             Type type = typeof(T);
 
@@ -117,7 +118,7 @@ namespace NonUnity.Ecs
             _componentTypes.Add(type, _nextComponentType);
             _componentPools.Add(type, new EcsComponentPool<T>(_componentPoolCapacity));
 
-            _nextComponentType++;
+            _nextComponentType = BitVector32.CreateMask(_nextComponentType);
         }
 
         /// <summary>

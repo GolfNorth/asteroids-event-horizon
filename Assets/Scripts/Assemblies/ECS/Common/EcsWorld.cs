@@ -100,7 +100,7 @@ namespace NonUnity.Ecs
         {
             BitVector32 signature = _entityManager.GetSignature(entityId);
 
-            return signature[_componentManager.GetComponentType<T>()] == true;
+            return signature[_componentManager.GetComponentType<T>()];
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace NonUnity.Ecs
         /// Получить идентификатор типа компонента
         /// </summary>
         /// <typeparam name="T">Тип компонента</typeparam>
-        internal byte GetComponentType<T>() where T : struct
+        internal int GetComponentType<T>() where T : struct
         {
             return _componentManager.GetComponentType<T>();
         }
