@@ -113,6 +113,7 @@ namespace NonUnity.Collision
         /// <param name="deltaAngle">Изменение угла</param>
         public void Rotate(float deltaAngle)
         {
+            _rotation += deltaAngle;
             deltaAngle = (float) Math.PI * deltaAngle / 180f;
 
             float cos = (float) Math.Cos(deltaAngle);
