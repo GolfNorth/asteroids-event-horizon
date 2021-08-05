@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 
 namespace NonUnity.Collision
@@ -126,7 +126,7 @@ namespace NonUnity.Collision
                          + (circle.Position.Y - edge.PointA.Y) * (edge.PointB.Y - edge.PointA.Y))
                         / Vector2.DistanceSquared(edge.PointA, edge.PointB);
 
-            Vector2 closest = edge.PointA + (edge.PointB - edge.PointB) * dot;
+            Vector2 closest = edge.PointA + (edge.PointB - edge.PointA) * dot;
             bool onSegment = EdgeAndPointContact(edge, closest);
 
             if (!onSegment)
