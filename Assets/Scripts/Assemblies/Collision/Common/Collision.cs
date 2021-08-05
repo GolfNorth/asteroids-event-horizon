@@ -73,9 +73,9 @@ namespace NonUnity.Collision
                     return PolygonAndEdgeContact((PolygonShape) shapeA, (EdgeShape) shapeB);
                 case ContactMatch.PolygonPolygon:
                     return PolygonAndPolygonContact((PolygonShape) shapeA, (PolygonShape) shapeB);
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-
-            throw new ArgumentOutOfRangeException();
         }
 
         #endregion

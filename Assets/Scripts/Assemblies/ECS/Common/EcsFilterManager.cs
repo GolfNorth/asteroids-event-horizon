@@ -24,12 +24,18 @@ namespace NonUnity.Ecs
         private readonly Dictionary<BitVector32, HashSet<uint>> _entities;
 
         /// <summary>
+        /// Пустая коллекция
+        /// </summary>
+        private readonly uint[] _empty;
+
+        /// <summary>
         /// Конструктор менеджера фильтров
         /// </summary>
         /// <param name="world">Пространство сущностей</param>
         public EcsFilterManager(EcsWorld world)
         {
             _world = world;
+            _empty = new uint[0];
             _counters = new Dictionary<BitVector32, int>();
             _entities = new Dictionary<BitVector32, HashSet<uint>>();
         }
@@ -147,7 +153,7 @@ namespace NonUnity.Ecs
         {
             if (!_entities.ContainsKey(signature))
             {
-                return null;
+                return _empty;
             }
 
             return _entities[signature];
