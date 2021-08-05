@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using NonUnity.Ecs;
 
@@ -13,6 +14,16 @@ namespace NonUnity.Game
         /// Конфигурация игры
         /// </summary>
         internal GameSettings Settings;
+
+        /// <summary>
+        /// Состояние инициализации игры
+        /// </summary>
+        private bool _initialized;
+
+        /// <summary>
+        /// Коллекция систем
+        /// </summary>
+        private readonly List<ISystem> _systems;
 
         /// <summary>
         /// Рандомизатор
@@ -55,7 +66,43 @@ namespace NonUnity.Game
             Settings = settings;
             Random = new Random();
             Factory = new EntityFactory(this, viewFactory);
+
+            _systems = new List<ISystem>
+            {
+                new ShipMovementSystem(this),
+                new TransformSystem(this),
+                new ViewMovementSystem(this)
+            };
+
             Command = new CommandService(this);
+        }
+
+        /// <summary>
+        /// Обновление геймплея
+        /// </summary>
+        /// <param name="dt">Прошедшее время</param>
+        public void Update(float dt)
+        {
+            if (!_initialized)
+            {
+                foreach (ISystem system in _systems)
+                {
+                    if (system is IInitSystem initSystem)
+                    {
+                        initSystem.Init();
+                    }
+                }
+
+                _initialized = true;
+            }
+
+            foreach (ISystem system in _systems)
+            {
+                if (system is IUpdateSystem updateSystem)
+                {
+                    updateSystem.Update(dt);
+                }
+            }
         }
     }
 }
