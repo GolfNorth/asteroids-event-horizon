@@ -39,9 +39,11 @@ namespace NonUnity.Game
 
             _game.World.AddComponent<ShipComponent>(entityId);
             _game.World.AddComponent<TransformComponent>(entityId);
-            _game.World.AddComponent<MovementComponent>(entityId);
             _game.World.AddComponent<MachineGunComponent>(entityId);
             _game.World.AddComponent<LaserGunComponent>(entityId);
+
+            ref MovementComponent movementComponent = ref _game.World.AddComponent<MovementComponent>(entityId);
+            movementComponent.Direction = Vector2.UnitX;
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
             body.Layer = (byte) Layer.Ship;
@@ -75,9 +77,12 @@ namespace NonUnity.Game
             asteroidComponent.Size = size;
 
             ref MovementComponent movementComponent = ref _game.World.AddComponent<MovementComponent>(entityId);
-            movementComponent.Speed = sizeSettings.MinSpeed +
-                                      (float) _game.Random.NextDouble() *
-                                      (sizeSettings.MaxSpeed - sizeSettings.MinSpeed);
+
+            float speed = sizeSettings.MinSpeed + (float) _game.Random.NextDouble() *
+                (sizeSettings.MaxSpeed - sizeSettings.MinSpeed);
+
+            movementComponent.Direction = Vector2.UnitX;
+            movementComponent.Velocity = Vector2.UnitX * speed;
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
             body.Layer = (byte) Layer.Asteroid;
@@ -99,7 +104,9 @@ namespace NonUnity.Game
 
             _game.World.AddComponent<UfoComponent>(entityId);
             _game.World.AddComponent<TransformComponent>(entityId);
-            _game.World.AddComponent<MovementComponent>(entityId);
+
+            ref MovementComponent movementComponent = ref _game.World.AddComponent<MovementComponent>(entityId);
+            movementComponent.Direction = Vector2.UnitX;
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
             body.Layer = (byte) Layer.Ufo;
@@ -121,7 +128,9 @@ namespace NonUnity.Game
 
             _game.World.AddComponent<BulletComponent>(entityId);
             _game.World.AddComponent<TransformComponent>(entityId);
-            _game.World.AddComponent<MovementComponent>(entityId);
+
+            ref MovementComponent movementComponent = ref _game.World.AddComponent<MovementComponent>(entityId);
+            movementComponent.Direction = Vector2.UnitX;
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
             body.Shape = new PointShape();
