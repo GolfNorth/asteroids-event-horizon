@@ -52,21 +52,21 @@ namespace NonUnity.Game
         /// <summary>
         /// Выстрел корабля
         /// </summary>
-        public void Fire(int value)
+        public void Fire(bool value)
         {
             ref CommandComponent commandComponent = ref GetComponent();
 
-            commandComponent.Fire = value > 0;
+            commandComponent.Fire = value;
         }
 
         /// <summary>
         /// Альтернативный выстрел корабля
         /// </summary>
-        public void AltFire(int value)
+        public void AltFire(bool value)
         {
             ref CommandComponent commandComponent = ref GetComponent();
 
-            commandComponent.AltFire = value > 0;
+            commandComponent.AltFire = value;
         }
 
         /// <summary>
