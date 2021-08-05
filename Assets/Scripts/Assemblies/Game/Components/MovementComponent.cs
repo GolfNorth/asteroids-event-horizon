@@ -8,18 +8,13 @@ namespace NonUnity.Game
     public struct MovementComponent
     {
         /// <summary>
-        /// Направление движения
+        /// Вектор направления
         /// </summary>
         public Vector2 Direction;
 
         /// <summary>
-        /// Вектор скорости
+        /// Векто скорости
         /// </summary>
         public Vector2 Velocity;
-
-        /// <summary>
-        /// Текущая скорость
-        /// </summary>
-        public float Speed;
     }
 }

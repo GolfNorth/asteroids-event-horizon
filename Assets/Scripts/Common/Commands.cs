@@ -28,7 +28,7 @@ namespace Asteroids.Common
             Vector2 value = callback.ReadValue<Vector2>();
 
             _game.Command.Translate(value.y);
-            _game.Command.Rotate(value.x);
+            _game.Command.Rotate(-value.x);
         }
 
         /// <summary>
