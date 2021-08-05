@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace NonUnity.Ecs
@@ -29,6 +29,7 @@ namespace NonUnity.Ecs
         /// <param name="world">Пространство сущностей</param>
         public EcsFilterManager(EcsWorld world)
         {
+            _world = world;
             _counters = new Dictionary<BitVector32, int>();
             _entities = new Dictionary<BitVector32, HashSet<uint>>();
         }
