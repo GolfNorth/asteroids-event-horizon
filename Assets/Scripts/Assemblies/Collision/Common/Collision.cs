@@ -75,7 +75,7 @@ namespace NonUnity.Collision
                     return PolygonAndPolygonContact((PolygonShape) shapeA, (PolygonShape) shapeB);
             }
 
-            throw new NotImplementedException();
+            throw new ArgumentOutOfRangeException();
         }
 
         #endregion

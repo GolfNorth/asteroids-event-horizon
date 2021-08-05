@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using Asteroids.Data;
 using NonUnity.Game;
 using UnityEngine;
@@ -43,6 +43,11 @@ namespace Asteroids.Common
         private string uiSceneName;
 
         /// <summary>
+        /// Текущее разрешение экрана
+        /// </summary>
+        private Vector2Int _resolution;
+
+        /// <summary>
         /// Экземпляр объекта
         /// </summary>
         public static Context Instance;
@@ -57,7 +62,6 @@ namespace Asteroids.Common
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else if (Instance != this)
             {
@@ -67,6 +71,8 @@ namespace Asteroids.Common
 
         private void Start()
         {
+            _resolution = new Vector2Int(Screen.width, Screen.height);
+
             RectangleF bounds = GetBounds();
             GameBuilder gameBuilder = new GameBuilder(bounds, (IViewFactory) viewFactory);
 
@@ -88,6 +94,17 @@ namespace Asteroids.Common
             Game = gameBuilder.Build();
 
             SceneManager.LoadSceneAsync(uiSceneName, LoadSceneMode.Additive);
+        }
+
+        private void Update()
+        {
+            if (_resolution.x != Screen.width || _resolution.y != Screen.height)
+            {
+                Game.Bounds = GetBounds();
+
+                _resolution.x = Screen.width;
+                _resolution.y = Screen.height;
+            }
         }
 
         /// <summary>

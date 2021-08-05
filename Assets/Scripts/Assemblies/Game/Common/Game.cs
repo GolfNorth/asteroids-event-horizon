@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Drawing;
 using NonUnity.Ecs;
 
 namespace NonUnity.Game
@@ -11,7 +12,7 @@ namespace NonUnity.Game
         /// <summary>
         /// Конфигурация игры
         /// </summary>
-        internal readonly GameSettings Settings;
+        internal GameSettings Settings;
 
         /// <summary>
         /// Рандомизатор
@@ -32,6 +33,15 @@ namespace NonUnity.Game
         /// Сервис команд
         /// </summary>
         public CommandService Command { get; }
+
+        /// <summary>
+        /// Игровые границы
+        /// </summary>
+        public RectangleF Bounds
+        {
+            get => Settings.Bounds;
+            set => Settings.Bounds = value;
+        }
 
         /// <summary>
         /// Конструктор объекта
