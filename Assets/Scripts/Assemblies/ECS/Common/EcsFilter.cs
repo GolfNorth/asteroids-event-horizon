@@ -32,6 +32,14 @@ namespace NonUnity.Ecs
         }
 
         /// <summary>
+        /// Удалить фильтр
+        /// </summary>
+        public void Remove()
+        {
+            _world.RemoveFilter(_signature);
+        }
+
+        /// <summary>
         /// Конструктор фильтра
         /// </summary>
         /// <param name="world">Пространство сущностей</param>
