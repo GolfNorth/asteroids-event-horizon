@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using NonUnity.Ecs;
@@ -21,9 +21,14 @@ namespace NonUnity.Game
         private bool _initialized;
 
         /// <summary>
-        /// Коллекция систем
+        /// Инициализируемые системы
         /// </summary>
-        private readonly List<ISystem> _systems;
+        private List<IInitSystem> _initSystems;
+
+        /// <summary>
+        /// Обновляемые системы
+        /// </summary>
+        private readonly List<IUpdateSystem> _updateSystems;
 
         /// <summary>
         /// Рандомизатор
@@ -67,12 +72,13 @@ namespace NonUnity.Game
             Random = new Random();
             Factory = new EntityFactory(this, viewFactory);
 
-            _systems = new List<ISystem>
-            {
-                new ShipMovementSystem(this),
-                new TransformSystem(this),
-                new ViewMovementSystem(this)
-            };
+            _initSystems = new List<IInitSystem>();
+            _updateSystems = new List<IUpdateSystem>();
+
+            AddSystem(new ShipMovementSystem(this));
+            AddSystem(new TransformSystem(this));
+            AddSystem(new TeleportSystem(this));
+            AddSystem(new ViewMovementSystem(this));
 
             Command = new CommandService(this);
         }
@@ -85,23 +91,35 @@ namespace NonUnity.Game
         {
             if (!_initialized)
             {
-                foreach (ISystem system in _systems)
+                foreach (IInitSystem system in _initSystems)
                 {
-                    if (system is IInitSystem initSystem)
-                    {
-                        initSystem.Init();
-                    }
+                    system.Init();
                 }
 
+                _initSystems = null;
                 _initialized = true;
             }
 
-            foreach (ISystem system in _systems)
+            foreach (IUpdateSystem system in _updateSystems)
             {
-                if (system is IUpdateSystem updateSystem)
-                {
-                    updateSystem.Update(dt);
-                }
+                system.Update(dt);
+            }
+        }
+
+        /// <summary>
+        /// Добавить систему
+        /// </summary>
+        /// <param name="system">Новая система</param>
+        private void AddSystem(ISystem system)
+        {
+            if (system is IInitSystem initSystem)
+            {
+                _initSystems.Add(initSystem);
+            }
+
+            if (system is IUpdateSystem updateSystem)
+            {
+                _updateSystems.Add(updateSystem);
             }
         }
     }
