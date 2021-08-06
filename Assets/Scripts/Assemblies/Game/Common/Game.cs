@@ -81,6 +81,7 @@ namespace NonUnity.Game
             _updateSystems = new List<IUpdateSystem>();
 
             AddSystem(new StartGameSystem(this));
+            AddSystem(new ShipSpawnSystem(this));
             AddSystem(new ShipMovementSystem(this));
             AddSystem(new TransformSystem(this));
             AddSystem(new TeleportSystem(this));

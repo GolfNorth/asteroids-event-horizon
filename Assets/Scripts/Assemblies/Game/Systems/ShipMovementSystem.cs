@@ -49,6 +49,9 @@ namespace NonUnity.Game
 
         public void Update(float dt)
         {
+            if (_shipFilter.Entities.Count == 0)
+                return;
+
             ref CommandComponent command = ref World.GetComponent<CommandComponent>(_commandEntity);
 
             float rotation = command.Rotation;
