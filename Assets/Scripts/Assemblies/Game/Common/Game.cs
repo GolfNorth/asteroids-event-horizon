@@ -51,6 +51,11 @@ namespace NonUnity.Game
         public CommandService Command { get; }
 
         /// <summary>
+        /// Состояние игры
+        /// </summary>
+        public GameState State { get; internal set; }
+
+        /// <summary>
         /// Игровые границы
         /// </summary>
         public RectangleF Bounds
@@ -75,10 +80,12 @@ namespace NonUnity.Game
             _initSystems = new List<IInitSystem>();
             _updateSystems = new List<IUpdateSystem>();
 
+            AddSystem(new StartGameSystem(this));
             AddSystem(new ShipMovementSystem(this));
             AddSystem(new TransformSystem(this));
             AddSystem(new TeleportSystem(this));
             AddSystem(new ViewMovementSystem(this));
+            AddSystem(new CleanUpSystem(this));
 
             Command = new CommandService(this);
         }
