@@ -56,6 +56,11 @@ namespace NonUnity.Game
         public GameState State { get; internal set; }
 
         /// <summary>
+        /// Резульат игры
+        /// </summary>
+        public int Score { get; internal set; }
+
+        /// <summary>
         /// Игровые границы
         /// </summary>
         public RectangleF Bounds

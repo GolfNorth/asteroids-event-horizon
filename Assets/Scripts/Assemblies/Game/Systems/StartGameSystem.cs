@@ -17,6 +17,8 @@
             if (Game.Command.Fire || Game.Command.AltFire)
             {
                 Game.State = GameState.Play;
+                Game.Score = 0;
+
                 uint entity = World.CreateEntity();
 
                 World.AddComponent<RestartComponent>(entity);
