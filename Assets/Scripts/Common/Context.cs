@@ -139,7 +139,7 @@ namespace Asteroids.Common
             Vector3 bottomLeft = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, -z));
 
             float width = Vector2.Distance(new Vector2(bottomLeft.x, 0), new Vector2(topRight.x, 0));
-            float height = Vector2.Distance(new Vector2(0, topRight.y), new Vector2(0, bottomLeft.y));
+            float height = -Vector2.Distance(new Vector2(0, topRight.y), new Vector2(0, bottomLeft.y));
             float offsetX = bottomLeft.x;
             float offsetY = topRight.y;
 

@@ -16,5 +16,10 @@ namespace NonUnity.Game
         /// Угол поворота сущности
         /// </summary>
         public float Rotation;
+
+        /// <summary>
+        /// Отступ от границы игры
+        /// </summary>
+        public float Offset;
     }
 }
