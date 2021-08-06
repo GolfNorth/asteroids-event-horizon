@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UfoData
   m_EditorClassIdentifier: 
   settings:
+    Offset: 2
     SpawnDelay: 4
     LinearSpeed: 4
   shapeVertexes:

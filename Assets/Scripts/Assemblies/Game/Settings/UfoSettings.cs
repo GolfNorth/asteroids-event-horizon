@@ -10,6 +10,11 @@ namespace NonUnity.Game
     public struct UfoSettings
     {
         /// <summary>
+        /// Отступ от границы экрана по умолчанию
+        /// </summary>
+        public const float DefaultOffset = 2f;
+
+        /// <summary>
         /// Задержка между появлениям НЛО по умолчанию
         /// </summary>
         public const float DefaultSpawnDelay = 4f;
@@ -26,6 +31,11 @@ namespace NonUnity.Game
         {
             new Vector2(1f, 0f), new Vector2(0f, -0.5f), new Vector2(-1f, 0f), new Vector2(0f, 0.5f)
         };
+
+        /// <summary>
+        /// Отступ от границы экрана
+        /// </summary>
+        public float Offset;
 
         /// <summary>
         /// Задержка между появлениям НЛО

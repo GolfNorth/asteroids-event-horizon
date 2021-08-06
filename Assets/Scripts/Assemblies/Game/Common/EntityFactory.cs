@@ -41,6 +41,9 @@ namespace NonUnity.Game
             _game.World.AddComponent<MachineGunComponent>(entityId);
             _game.World.AddComponent<LaserGunComponent>(entityId);
 
+            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
+            transform.Offset = _game.Settings.Ship.Offset;
+
             ref MovementComponent movement = ref _game.World.AddComponent<MovementComponent>(entityId);
             movement.Direction = Vector2.UnitX;
 
@@ -49,15 +52,9 @@ namespace NonUnity.Game
             body.Mask = (byte) Layer.Enemy;
             body.Shape = new PolygonShape(_game.Settings.Ship.ShapeVertexes);
 
-            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
-
-            float width = body.Shape.AABB.X2 - body.Shape.AABB.X1;
-            float height = body.Shape.AABB.Y2 - body.Shape.AABB.Y1;
-
-            transform.Offset = Math.Max(width, height);
-
             ref ViewComponent view = ref _game.World.AddComponent<ViewComponent>(entityId);
             view.Value = _viewFactory.CreateShip();
+            view.Value.Activate();
 
             return entityId;
         }
@@ -80,28 +77,20 @@ namespace NonUnity.Game
             ref AsteroidComponent asteroid = ref _game.World.AddComponent<AsteroidComponent>(entityId);
             asteroid.Size = size;
 
+            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
+            transform.Offset = sizeSettings.Offset;
+
             ref MovementComponent movement = ref _game.World.AddComponent<MovementComponent>(entityId);
-
-            float speed = sizeSettings.MinSpeed + (float) _game.Random.NextDouble() *
-                (sizeSettings.MaxSpeed - sizeSettings.MinSpeed);
-
             movement.Direction = Vector2.UnitX;
-            movement.Velocity = Vector2.UnitX * speed;
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
             body.Layer = (byte) Layer.Asteroid;
             body.Mask = (byte) Layer.Ship;
             body.Shape = new CircleShape(sizeSettings.Radius);
 
-            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
-
-            float width = body.Shape.AABB.X2 - body.Shape.AABB.X1;
-            float height = body.Shape.AABB.Y2 - body.Shape.AABB.Y1;
-
-            transform.Offset = Math.Max(width, height);
-
             ref ViewComponent view = ref _game.World.AddComponent<ViewComponent>(entityId);
             view.Value = _viewFactory.CreateAsteroid(size);
+            view.Value.Activate();
 
             return entityId;
         }
@@ -116,6 +105,9 @@ namespace NonUnity.Game
             _game.World.AddComponent<UfoComponent>(entityId);
             _game.World.AddComponent<TransformComponent>(entityId);
 
+            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
+            transform.Offset = _game.Settings.Ufo.Offset;
+
             ref MovementComponent movement = ref _game.World.AddComponent<MovementComponent>(entityId);
             movement.Direction = Vector2.UnitX;
 
@@ -123,16 +115,10 @@ namespace NonUnity.Game
             body.Layer = (byte) Layer.Ufo;
             body.Mask = (byte) Layer.Ship;
             body.Shape = new PolygonShape(_game.Settings.Ufo.ShapeVertexes);
-            
-            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
-
-            float width = body.Shape.AABB.X2 - body.Shape.AABB.X1;
-            float height = body.Shape.AABB.Y2 - body.Shape.AABB.Y1;
-
-            transform.Offset = Math.Max(width, height);
 
             ref ViewComponent view = ref _game.World.AddComponent<ViewComponent>(entityId);
             view.Value = _viewFactory.CreateUfo();
+            view.Value.Activate();
 
             return entityId;
         }
@@ -146,17 +132,20 @@ namespace NonUnity.Game
 
             _game.World.AddComponent<BulletComponent>(entityId);
 
+            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
+            transform.Offset = _game.Settings.Ship.BulletOffset;
+
             ref MovementComponent movement = ref _game.World.AddComponent<MovementComponent>(entityId);
             movement.Direction = Vector2.UnitX;
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
+            body.Layer = (byte) Layer.Ship;
+            body.Mask = (byte) Layer.Enemy;
             body.Shape = new PointShape();
-            
-            ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
-            transform.Offset = 5f;
 
             ref ViewComponent view = ref _game.World.AddComponent<ViewComponent>(entityId);
             view.Value = _viewFactory.CreateBullet();
+            view.Value.Activate();
 
             return entityId;
         }
@@ -172,10 +161,13 @@ namespace NonUnity.Game
             _game.World.AddComponent<TransformComponent>(entityId);
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
+            body.Layer = (byte) Layer.Ship;
+            body.Mask = (byte) Layer.Enemy;
             body.Shape = new EdgeShape(Vector2.Zero, new Vector2(_game.Settings.Bounds.Width, 0f));
 
             ref ViewComponent view = ref _game.World.AddComponent<ViewComponent>(entityId);
             view.Value = _viewFactory.CreateLaser();
+            view.Value.Activate();
 
             return entityId;
         }

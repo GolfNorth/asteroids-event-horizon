@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: ShipData
   m_EditorClassIdentifier: 
   settings:
+    Offset: 1
     AngularSpeed: 280
     LinearSpeed: 8
     StopSpeed: 0.6
     Inertia: 0.6
+    BulletOffset: 0.5
     BulletSpeed: 12
     BulletFireRate: 0.25
     LaserFireRate: 3

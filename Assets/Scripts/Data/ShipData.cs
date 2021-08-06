@@ -22,10 +22,12 @@ namespace Asteroids.Data
 
         public override void Default()
         {
+            settings.Offset = ShipSettings.DefaultOffset;
             settings.AngularSpeed = ShipSettings.DefaultAngularSpeed;
             settings.LinearSpeed = ShipSettings.DefaultLinearSpeed;
             settings.StopSpeed = ShipSettings.DefaultStopSpeed;
             settings.Inertia = ShipSettings.DefaultInertia;
+            settings.BulletOffset = ShipSettings.DefaultBulletOffset;
             settings.BulletSpeed = ShipSettings.DefaultBulletSpeed;
             settings.BulletFireRate = ShipSettings.DefaultBulletFireRate;
             settings.LaserFireRate = ShipSettings.DefaultLaserFireRate;

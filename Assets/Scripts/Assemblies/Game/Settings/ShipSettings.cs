@@ -10,6 +10,11 @@ namespace NonUnity.Game
     public struct ShipSettings
     {
         /// <summary>
+        /// Отступ от границы экрана по умолчанию
+        /// </summary>
+        public const float DefaultOffset = 1f;
+
+        /// <summary>
         /// Угловая скорость по умолчанию
         /// </summary>
         public const float DefaultAngularSpeed = 280f;
@@ -28,6 +33,11 @@ namespace NonUnity.Game
         /// Инерция по умолчанию
         /// </summary>
         public const float DefaultInertia = 0.6f;
+
+        /// <summary>
+        /// Отступ пули от границы экрана по умолчанию
+        /// </summary>
+        public const float DefaultBulletOffset = 0.5f;
 
         /// <summary>
         /// Скорость полета пуль по умолчанию
@@ -68,6 +78,11 @@ namespace NonUnity.Game
         };
 
         /// <summary>
+        /// Отступ от границы экрана
+        /// </summary>
+        public float Offset;
+
+        /// <summary>
         /// Угловая скорость
         /// </summary>
         public float AngularSpeed;
@@ -86,6 +101,11 @@ namespace NonUnity.Game
         /// Инерция
         /// </summary>
         public float Inertia;
+
+        /// <summary>
+        /// Отступ пули от границы экрана
+        /// </summary>
+        public float BulletOffset;
 
         /// <summary>
         /// Скорость полета пуль

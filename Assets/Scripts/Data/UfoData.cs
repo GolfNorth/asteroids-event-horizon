@@ -22,6 +22,7 @@ namespace Asteroids.Data
 
         public override void Default()
         {
+            settings.Offset = UfoSettings.DefaultOffset;
             settings.SpawnDelay = UfoSettings.DefaultSpawnDelay;
             settings.LinearSpeed = UfoSettings.DefaultLinearSpeed;
             shapeVertexes = ShipSettings.DefaultShapeVertexes.Convert();

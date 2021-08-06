@@ -9,6 +9,11 @@ namespace NonUnity.Game
     public struct AsteroidSizeSettings
     {
         /// <summary>
+        /// Отступ от границы экрана
+        /// </summary>
+        public float Offset;
+
+        /// <summary>
         /// Радиус астероида
         /// </summary>
         public float Radius;
@@ -31,6 +36,7 @@ namespace NonUnity.Game
         /// <param name="maxSpeed">Максимальная скорость</param>
         public AsteroidSizeSettings(float radius, float minSpeed, float maxSpeed)
         {
+            Offset = radius * 2;
             Radius = radius;
             MinSpeed = minSpeed;
             MaxSpeed = maxSpeed;
