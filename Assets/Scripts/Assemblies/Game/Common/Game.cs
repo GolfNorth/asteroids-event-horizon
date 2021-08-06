@@ -85,6 +85,7 @@ namespace NonUnity.Game
             AddSystem(new ShipMovementSystem(this));
             AddSystem(new TransformSystem(this));
             AddSystem(new TeleportSystem(this));
+            AddSystem(new ShapeSystem(this));
             AddSystem(new ViewMovementSystem(this));
             AddSystem(new CleanUpSystem(this));
 
