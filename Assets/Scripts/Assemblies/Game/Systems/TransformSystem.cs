@@ -6,8 +6,11 @@ namespace NonUnity.Game
     /// <summary>
     /// Система обновления трансформов
     /// </summary>
-    public class TransformSystem : GameSystem, IUpdateSystem
+    public sealed class TransformSystem : GameSystem, IUpdateSystem
     {
+        /// <summary>
+        /// Фильтр сущностей
+        /// </summary>
         private readonly EcsFilter<TransformComponent, MovementComponent> _filter;
 
         public TransformSystem(Game game) : base(game)

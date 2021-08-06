@@ -58,30 +58,45 @@ namespace NonUnity.Game
             {
                 ref MovementComponent movement = ref World.GetComponent<MovementComponent>(entityId);
 
-                if (rotation != 0)
-                {
-                    float deltaAngle = rotation * _shipSettings.AngularSpeed * dt;
-                    Matrix3x2 rotationMatrix = Matrix3x2.CreateRotation((float) Math.PI * deltaAngle / 180f);
+                Rotate(ref movement, rotation, dt);
+                Translate(ref movement, translation, dt);
+            }
+        }
 
-                    movement.Direction = Vector2.Transform(movement.Direction, rotationMatrix);
-                }
+        /// <summary>
+        /// Поворот корабля
+        /// </summary>
+        private void Rotate(ref MovementComponent movement, float rotation, float dt)
+        {
+            if (rotation == 0)
+                return;
 
-                if (translation > 0)
-                {
-                    movement.Velocity += movement.Direction * _shipSettings.LinearSpeed * dt;
+            float deltaAngle = rotation * _shipSettings.AngularSpeed * dt;
+            Matrix3x2 rotationMatrix = Matrix3x2.CreateRotation((float) Math.PI * deltaAngle / 180f);
 
-                    if (movement.Velocity.LengthSquared() > _shipSettings.LinearSpeed * _shipSettings.LinearSpeed)
-                    {
-                        movement.Velocity = Vector2.Normalize(movement.Velocity) * _shipSettings.LinearSpeed;
-                    }
-                }
-                else
+            movement.Direction = Vector2.Transform(movement.Direction, rotationMatrix);
+        }
+
+        /// <summary>
+        /// Передвижение корабля
+        /// </summary>
+        private void Translate(ref MovementComponent movement, float translation, float dt)
+        {
+            if (translation > 0)
+            {
+                movement.Velocity += movement.Direction * _shipSettings.LinearSpeed * dt;
+
+                if (movement.Velocity.LengthSquared() > _shipSettings.LinearSpeed * _shipSettings.LinearSpeed)
                 {
-                    movement.Velocity = movement.Velocity.LengthSquared() >
-                                        _shipSettings.StopSpeed * _shipSettings.StopSpeed
-                        ? Vector2.Lerp(movement.Velocity, Vector2.Zero, (1 - _shipSettings.Inertia) * dt)
-                        : Vector2.Zero;
+                    movement.Velocity = Vector2.Normalize(movement.Velocity) * _shipSettings.LinearSpeed;
                 }
+            }
+            else
+            {
+                movement.Velocity = movement.Velocity.LengthSquared() >
+                                    _shipSettings.StopSpeed * _shipSettings.StopSpeed
+                    ? Vector2.Lerp(movement.Velocity, Vector2.Zero, (1 - _shipSettings.Inertia) * dt)
+                    : Vector2.Zero;
             }
         }
     }

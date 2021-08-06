@@ -6,8 +6,11 @@ namespace NonUnity.Game
     /// <summary>
     /// Система телепортирования сущностей
     /// </summary>
-    public class TeleportSystem : GameSystem, IUpdateSystem
+    public sealed class TeleportSystem : GameSystem, IUpdateSystem
     {
+        /// <summary>
+        /// Фильтр сущностей
+        /// </summary>
         private readonly EcsFilter<TransformComponent> _filter;
 
         public TeleportSystem(Game game) : base(game)

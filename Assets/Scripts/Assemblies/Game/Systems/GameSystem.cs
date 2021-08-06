@@ -21,7 +21,7 @@ namespace NonUnity.Game
         /// Конструктор системы
         /// </summary>
         /// <param name="game">Геймплейный объект</param>
-        public GameSystem(Game game)
+        protected GameSystem(Game game)
         {
             Game = game;
         }

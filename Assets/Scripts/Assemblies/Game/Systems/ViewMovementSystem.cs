@@ -5,8 +5,11 @@ namespace NonUnity.Game
     /// <summary>
     /// Система перемещения визуализаторов
     /// </summary>
-    public class ViewMovementSystem : GameSystem, IUpdateSystem
+    public sealed class ViewMovementSystem : GameSystem, IUpdateSystem
     {
+        /// <summary>
+        /// Фильтр сущностей
+        /// </summary>
         private readonly EcsFilter<TransformComponent, ViewComponent> _filter;
 
         public ViewMovementSystem(Game game) : base(game)
