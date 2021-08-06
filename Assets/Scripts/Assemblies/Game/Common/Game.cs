@@ -75,6 +75,7 @@ namespace NonUnity.Game
             World = world;
             Settings = settings;
             Random = new Random();
+            Command = new CommandService();
             Factory = new EntityFactory(this, viewFactory);
 
             _initSystems = new List<IInitSystem>();
@@ -90,8 +91,6 @@ namespace NonUnity.Game
             AddSystem(new ShapeSystem(this));
             AddSystem(new ViewMovementSystem(this));
             AddSystem(new CleanUpSystem(this));
-
-            Command = new CommandService(this);
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace Asteroids.Common
         {
             bool pressed = callback.ReadValueAsButton();
 
-            _game.Command.Fire(pressed);
+            _game.Command.Shot(pressed);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Asteroids.Common
         {
             bool pressed = callback.ReadValueAsButton();
 
-            _game.Command.AltFire(pressed);
+            _game.Command.AltShot(pressed);
         }
     }
 }

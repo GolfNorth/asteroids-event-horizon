@@ -7,22 +7,12 @@ namespace NonUnity.Game
     /// <summary>
     /// Система передвижения корабля
     /// </summary>
-    public sealed class ShipMovementSystem : GameSystem, IInitSystem, IUpdateSystem
+    public sealed class ShipMovementSystem : GameSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр компонента корабля
         /// </summary>
-        private readonly EcsFilter<ShipComponent> _shipFilter;
-
-        /// <summary>
-        /// Фильтр комманд
-        /// </summary>
-        private EcsFilter<CommandComponent> _commandFilter;
-
-        /// <summary>
-        /// Сущность команд
-        /// </summary>
-        private uint _commandEntity;
+        private readonly EcsFilter<ShipComponent> _filter;
 
         /// <summary>
         /// Угловая скорость
@@ -31,33 +21,19 @@ namespace NonUnity.Game
 
         public ShipMovementSystem(Game game) : base(game)
         {
-            _shipFilter = new EcsFilter<ShipComponent>(World);
-            _commandFilter = new EcsFilter<CommandComponent>(World);
+            _filter = new EcsFilter<ShipComponent>(World);
             _shipSettings = Game.Settings.Ship;
-        }
-
-        public void Init()
-        {
-            foreach (uint entityId in _commandFilter.Entities)
-            {
-                _commandEntity = entityId;
-            }
-
-            _commandFilter.Remove();
-            _commandFilter = null;
         }
 
         public void Update(float dt)
         {
-            if (_shipFilter.Entities.Count == 0)
+            if (_filter.Entities.Count == 0)
                 return;
 
-            ref CommandComponent command = ref World.GetComponent<CommandComponent>(_commandEntity);
+            float rotation = Game.Command.Rotation;
+            float translation = Game.Command.Translation;
 
-            float rotation = command.Rotation;
-            float translation = command.Translation;
-
-            foreach (uint entityId in _shipFilter.Entities)
+            foreach (uint entityId in _filter.Entities)
             {
                 ref MovementComponent movement = ref World.GetComponent<MovementComponent>(entityId);
 

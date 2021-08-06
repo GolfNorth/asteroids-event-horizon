@@ -1,6 +1,4 @@
-﻿using NonUnity.Ecs;
-
-namespace NonUnity.Game
+﻿namespace NonUnity.Game
 {
     /// <summary>
     /// Сервис команд
@@ -8,35 +6,31 @@ namespace NonUnity.Game
     public sealed class CommandService
     {
         /// <summary>
-        /// Пространство сущностей
+        /// Передвижение корабля
         /// </summary>
-        private readonly EcsWorld _world;
+        internal float Translation { get; private set; }
 
         /// <summary>
-        /// Сущность команд
+        /// Поворот корабля
         /// </summary>
-        private readonly uint _entityId;
+        internal float Rotation { get; private set; }
 
         /// <summary>
-        /// Конструктор сервиса команд
+        /// Выстрел корабля
         /// </summary>
-        /// <param name="game">Геймплейный объект</param>
-        public CommandService(Game game)
-        {
-            _world = game.World;
-            _entityId = _world.CreateEntity();
+        internal bool Fire { get; private set; }
 
-            _world.AddComponent<CommandComponent>(_entityId);
-        }
+        /// <summary>
+        /// Альтернативный выстрел корабля
+        /// </summary>
+        internal bool AltFire { get; private set; }
 
         /// <summary>
         /// Передвижение корабля
         /// </summary>
         public void Translate(float value)
         {
-            ref CommandComponent commandComponent = ref GetComponent();
-
-            commandComponent.Translation = value;
+            Translation = value;
         }
 
         /// <summary>
@@ -44,37 +38,23 @@ namespace NonUnity.Game
         /// </summary>
         public void Rotate(float value)
         {
-            ref CommandComponent commandComponent = ref GetComponent();
-
-            commandComponent.Rotation = value;
+            Rotation = value;
         }
 
         /// <summary>
         /// Выстрел корабля
         /// </summary>
-        public void Fire(bool value)
+        public void Shot(bool value)
         {
-            ref CommandComponent commandComponent = ref GetComponent();
-
-            commandComponent.Fire = value;
+            Fire = value;
         }
 
         /// <summary>
         /// Альтернативный выстрел корабля
         /// </summary>
-        public void AltFire(bool value)
+        public void AltShot(bool value)
         {
-            ref CommandComponent commandComponent = ref GetComponent();
-
-            commandComponent.AltFire = value;
-        }
-
-        /// <summary>
-        /// Получить компонент команд
-        /// </summary>
-        private ref CommandComponent GetComponent()
-        {
-            return ref _world.GetComponent<CommandComponent>(_entityId);
+            AltFire = value;
         }
     }
 }
