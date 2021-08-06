@@ -82,6 +82,7 @@ namespace NonUnity.Game
 
             AddSystem(new StartGameSystem(this));
             AddSystem(new ShipSpawnSystem(this));
+            AddSystem(new AsteroidSpawnSystem(this));
             AddSystem(new ShipMovementSystem(this));
             AddSystem(new TransformSystem(this));
             AddSystem(new TeleportSystem(this));

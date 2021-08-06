@@ -81,7 +81,12 @@ namespace NonUnity.Game
             transform.Offset = sizeSettings.Offset;
 
             ref MovementComponent movement = ref _game.World.AddComponent<MovementComponent>(entityId);
-            movement.Direction = Vector2.UnitX;
+
+            Matrix3x2 rotationMatrix = Matrix3x2.CreateRotation((float) (Math.PI * 2 * _game.Random.NextDouble()));
+
+            movement.Direction = Vector2.Transform(Vector2.UnitX, rotationMatrix);
+            movement.Velocity = movement.Direction * (sizeSettings.MinSpeed + (float) _game.Random.NextDouble()
+                * (sizeSettings.MaxSpeed - sizeSettings.MinSpeed));
 
             ref BodyComponent body = ref _game.World.AddComponent<BodyComponent>(entityId);
             body.Layer = (byte) Layer.Asteroid;
