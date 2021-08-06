@@ -114,9 +114,16 @@ namespace NonUnity.Ecs
 
             BitVector32 signature = _entityManager.GetSignature(entityId);
             signature[_componentManager.GetComponentType<T>()] = false;
-            _entityManager.SetSignature(entityId, signature);
 
-            _filterManager.EntitySignatureChanged(entityId, ref signature);
+            if (signature.Data > 0)
+            {
+                _entityManager.SetSignature(entityId, signature);
+                _filterManager.EntitySignatureChanged(entityId, ref signature);
+            }
+            else
+            {
+                DestroyEntity(entityId);
+            }
         }
 
         /// <summary>
