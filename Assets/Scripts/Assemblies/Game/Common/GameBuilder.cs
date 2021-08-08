@@ -9,11 +9,6 @@ namespace NonUnity.Game
     public sealed class GameBuilder
     {
         /// <summary>
-        /// Игровые границы
-        /// </summary>
-        private readonly RectangleF _bounds;
-
-        /// <summary>
         /// Фабрика визуализаторов
         /// </summary>
         private readonly IViewFactory _viewFactory;
@@ -22,6 +17,11 @@ namespace NonUnity.Game
         /// Пространство сущностей
         /// </summary>
         private EcsWorld _world;
+
+        /// <summary>
+        /// Игровые границы
+        /// </summary>
+        private RectangleF _bounds = new RectangleF(-16f, 9f, 32f, 18f);
 
         /// <summary>
         /// Конфигурация корабля
@@ -63,11 +63,9 @@ namespace NonUnity.Game
         /// <summary>
         /// Игровые границы
         /// </summary>
-        /// <param name="bounds">Игровые границы</param>
         /// <param name="viewFactory">Фабрика визуализаторов</param>
-        public GameBuilder(RectangleF bounds, IViewFactory viewFactory)
+        public GameBuilder(IViewFactory viewFactory)
         {
-            _bounds = bounds;
             _viewFactory = viewFactory;
         }
 
@@ -78,6 +76,17 @@ namespace NonUnity.Game
         public GameBuilder SetWorld(EcsWorld world)
         {
             _world = world;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Установить пространство сущностей
+        /// </summary>
+        /// <param name="bounds">Игровые границы</param>
+        public GameBuilder SetBounds(in RectangleF bounds)
+        {
+            _bounds = bounds;
 
             return this;
         }

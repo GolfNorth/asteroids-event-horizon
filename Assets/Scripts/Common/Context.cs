@@ -19,9 +19,6 @@ namespace Asteroids.Common
         [SerializeField, Tooltip("Сцена интерфейса")]
         private Object uiScene;
 
-        [SerializeField, Tooltip("Игровая камера")]
-        private Camera gameCamera;
-
         [TypeRestriction(typeof(IViewFactory))]
         [SerializeField, Tooltip("Фабрика визуализаторов")]
         private MonoBehaviour viewFactory;
@@ -37,9 +34,14 @@ namespace Asteroids.Common
         private AsteroidData asteroidData;
 
         /// <summary>
-        /// Завершение инициализации
+        /// Загрузка сцены интерфейса
         /// </summary>
-        private bool _initialized;
+        private bool _uiLoaded;
+
+        /// <summary>
+        /// Игровая камера
+        /// </summary>
+        private Camera _gameCamera;
 
         /// <summary>
         /// Текущее разрешение экрана
@@ -50,6 +52,11 @@ namespace Asteroids.Common
         /// Экземпляр объекта
         /// </summary>
         public static Context Instance;
+
+        /// <summary>
+        /// Завершение инициализации
+        /// </summary>
+        public bool Initialized => _uiLoaded;
 
         /// <summary>
         /// Объект геймплея
@@ -76,16 +83,13 @@ namespace Asteroids.Common
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
 
-                _initialized = true;
+                _uiLoaded = true;
             }
         }
 
         private void Start()
         {
-            _resolution = new Vector2Int(Screen.width, Screen.height);
-
-            RectangleF bounds = GetBounds();
-            GameBuilder gameBuilder = new GameBuilder(bounds, (IViewFactory) viewFactory);
+            GameBuilder gameBuilder = new GameBuilder((IViewFactory) viewFactory);
 
             if (shipData != null)
             {
@@ -102,14 +106,19 @@ namespace Asteroids.Common
                 gameBuilder.SetAsteroidSettings(in asteroidData.GetData());
             }
 
-            Game = gameBuilder.Build();
+            _gameCamera = Camera.main;
+            _resolution = new Vector2Int(Screen.width, Screen.height);
+
+            RectangleF bounds = GetBounds();
+
+            Game = gameBuilder.SetBounds(bounds).Build();
 
             SceneManager.LoadSceneAsync(uiScene.name, LoadSceneMode.Additive);
         }
 
         private void Update()
         {
-            if (!_initialized)
+            if (!Initialized)
                 return;
 
             if (_resolution.x != Screen.width || _resolution.y != Screen.height)
@@ -128,9 +137,9 @@ namespace Asteroids.Common
         /// </summary>
         private RectangleF GetBounds()
         {
-            float z = gameCamera.gameObject.transform.position.z;
-            Vector3 topRight = gameCamera.ViewportToWorldPoint(new Vector3(1, 1, -z));
-            Vector3 bottomLeft = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, -z));
+            float z = _gameCamera.gameObject.transform.position.z;
+            Vector3 topRight = _gameCamera.ViewportToWorldPoint(new Vector3(1, 1, -z));
+            Vector3 bottomLeft = _gameCamera.ViewportToWorldPoint(new Vector3(0, 0, -z));
 
             float width = Vector2.Distance(new Vector2(bottomLeft.x, 0), new Vector2(topRight.x, 0));
             float height = -Vector2.Distance(new Vector2(0, topRight.y), new Vector2(0, bottomLeft.y));
