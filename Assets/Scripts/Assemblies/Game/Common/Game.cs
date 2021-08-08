@@ -94,6 +94,10 @@ namespace NonUnity.Game
             AddSystem(new TransformSystem(this));
             AddSystem(new TeleportSystem(this));
             AddSystem(new ShapeSystem(this));
+            AddSystem(new CollisionSystem(this));
+            AddSystem(new AsteroidCollisionSystem(this));
+            AddSystem(new DeactivateSystem(this));
+            AddSystem(new DestroySystem(this));
             AddSystem(new ViewMovementSystem(this));
             AddSystem(new CleanUpSystem(this));
         }

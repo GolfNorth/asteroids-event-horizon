@@ -110,8 +110,6 @@ namespace NonUnity.Ecs
             _freeComponents[_freeComponentCount++] = indexOfRemovedEntity;
 
             _entityToIndex.Remove(entityId);
-
-            _componentCount--;
         }
 
         /// <summary>

@@ -19,11 +19,9 @@ namespace NonUnity.Game
         {
             base.Restart();
 
-            uint[] entities = _filter.Entities.ToArray();
-
-            foreach (uint entity in entities)
+            foreach (uint entity in _filter.Entities)
             {
-                World.DestroyEntity(entity);
+                World.AddComponent<DeactivateComponent>(entity);
             }
         }
 
