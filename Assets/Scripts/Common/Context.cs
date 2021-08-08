@@ -4,10 +4,6 @@ using NonUnity.Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
-#if UNITY_EDITOR
-using UnityEditor;
-
-#endif
 
 namespace Asteroids.Common
 {
@@ -17,12 +13,16 @@ namespace Asteroids.Common
     public sealed class Context : MonoBehaviour
     {
         [Header("Main")]
+#if UNITY_EDITOR
+        [TypeRestriction(typeof(UnityEditor.SceneAsset))]
+#endif
         [SerializeField, Tooltip("Сцена интерфейса")]
         private Object uiScene;
 
         [SerializeField, Tooltip("Игровая камера")]
         private Camera gameCamera;
 
+        [TypeRestriction(typeof(IViewFactory))]
         [SerializeField, Tooltip("Фабрика визуализаторов")]
         private MonoBehaviour viewFactory;
 
@@ -35,12 +35,6 @@ namespace Asteroids.Common
 
         [SerializeField, Tooltip("Конфигурация астероидов")]
         private AsteroidData asteroidData;
-
-        /// <summary>
-        /// Имя сцены интерфейса
-        /// </summary>
-        [SerializeField, HideInInspector]
-        private string uiSceneName;
 
         /// <summary>
         /// Завершение инициализации
@@ -78,7 +72,7 @@ namespace Asteroids.Common
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
-            if (scene.name == uiSceneName)
+            if (scene.name == uiScene.name)
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
 
@@ -110,7 +104,7 @@ namespace Asteroids.Common
 
             Game = gameBuilder.Build();
 
-            SceneManager.LoadSceneAsync(uiSceneName, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(uiScene.name, LoadSceneMode.Additive);
         }
 
         private void Update()
@@ -145,34 +139,5 @@ namespace Asteroids.Common
 
             return new RectangleF(offsetX, offsetY, width, height);
         }
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (viewFactory != null && !(viewFactory is IViewFactory))
-            {
-                IViewFactory match = viewFactory.GetComponent<IViewFactory>();
-                viewFactory = match as MonoBehaviour;
-
-                EditorUtility.SetDirty(this);
-            }
-
-            if (uiScene != null && uiScene is SceneAsset sceneAsset)
-            {
-                if (string.IsNullOrWhiteSpace(uiSceneName) || uiSceneName != sceneAsset.name)
-                {
-                    uiSceneName = sceneAsset.name;
-
-                    EditorUtility.SetDirty(this);
-                }
-            }
-            else if (!string.IsNullOrWhiteSpace(uiSceneName))
-            {
-                uiSceneName = string.Empty;
-
-                EditorUtility.SetDirty(this);
-            }
-        }
-#endif
     }
 }
