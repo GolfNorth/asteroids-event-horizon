@@ -17,6 +17,7 @@ MonoBehaviour:
     SpawnDelay: 4
     LinearSpeed: 4
   shapeVertexes:
-  - {x: 0.5, y: 0}
-  - {x: -0.5, y: -0.25}
-  - {x: -0.5, y: 0.25}
+  - {x: 1, y: 0}
+  - {x: 0, y: -0.5}
+  - {x: -1, y: 0}
+  - {x: 0, y: 0.5}
