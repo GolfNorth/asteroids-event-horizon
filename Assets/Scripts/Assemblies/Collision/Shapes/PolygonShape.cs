@@ -85,9 +85,9 @@ namespace NonUnity.Collision
         {
             _position = position;
             _rotation = 0f;
-            _points = points;
             _aabb = new AABB();
             _dirty = true;
+            _points = (Vector2[]) points.Clone();
         }
 
         /// <summary>
