@@ -1,5 +1,4 @@
-﻿using Asteroids.Common;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asteroids.Views
 {

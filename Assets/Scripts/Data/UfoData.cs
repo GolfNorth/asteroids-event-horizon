@@ -1,4 +1,4 @@
-﻿using Asteroids.Extensions;
+﻿using Asteroids.Common;
 using NonUnity.Game;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ namespace Asteroids.Data
             settings.Offset = UfoSettings.DefaultOffset;
             settings.SpawnDelay = UfoSettings.DefaultSpawnDelay;
             settings.LinearSpeed = UfoSettings.DefaultLinearSpeed;
-            shapeVertexes = ShipSettings.DefaultShapeVertexes.Convert();
+            shapeVertexes = UfoSettings.DefaultShapeVertexes.Convert();
         }
     }
 }

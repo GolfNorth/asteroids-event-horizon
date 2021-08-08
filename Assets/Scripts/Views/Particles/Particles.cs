@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Asteroids.Common
+namespace Asteroids.Views
 {
     /// <summary>
     /// Контроллер системы частиц

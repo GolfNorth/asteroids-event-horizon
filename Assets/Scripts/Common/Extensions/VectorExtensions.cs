@@ -1,7 +1,7 @@
 ﻿using UnityVector = UnityEngine.Vector2;
 using NumericsVector = System.Numerics.Vector2;
 
-namespace Asteroids.Extensions
+namespace Asteroids.Common
 {
     /// <summary>
     /// Расширения для векторов
