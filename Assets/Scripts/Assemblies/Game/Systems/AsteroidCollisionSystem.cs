@@ -23,7 +23,7 @@ namespace NonUnity.Game
             {
                 ref CollisionComponent collision = ref World.GetComponent<CollisionComponent>(entity);
 
-                if (!World.HasComponent<ShipComponent>(collision.Other))
+                if (World.HasComponent<ShipComponent>(collision.Other))
                     continue;
 
                 Game.Score++;
