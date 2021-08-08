@@ -6,7 +6,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система респауна астероидов
     /// </summary>
-    public sealed class AsteroidSpawnSystem : AutoSpawnSystem
+    public sealed class AsteroidSpawnSystem : SpawnSystem
     {
         /// <summary>
         /// Фильтр сущностей

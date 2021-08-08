@@ -3,7 +3,7 @@ using NonUnity.Ecs;
 
 namespace NonUnity.Game
 {
-    public class UfoSpawnSystem : AutoSpawnSystem
+    public class UfoSpawnSystem : SpawnSystem
     {
         /// <summary>
         /// Фильтр сущностей
