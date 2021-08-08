@@ -258,6 +258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1373983776}
   - component: {fileID: 1373983775}
+  - component: {fileID: 1373983777}
   m_Layer: 0
   m_Name: Views
   m_TagString: Untagged
@@ -306,6 +307,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1373983777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373983774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c81c1d81b0ed47ea92c952944b6e78f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aabbColor: {r: 1, g: 0, b: 1, a: 1}
+  shapeColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &2030445787
 GameObject:
   m_ObjectHideFlags: 0

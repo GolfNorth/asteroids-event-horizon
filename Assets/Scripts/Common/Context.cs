@@ -56,7 +56,7 @@ namespace Asteroids.Common
         /// <summary>
         /// Завершение инициализации
         /// </summary>
-        public bool Initialized => _uiLoaded;
+        public static bool Initialized => Instance != null && Instance._uiLoaded;
 
         /// <summary>
         /// Объект геймплея
