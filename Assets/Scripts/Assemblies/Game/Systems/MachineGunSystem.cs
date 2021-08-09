@@ -1,57 +1,51 @@
-﻿using NonUnity.Ecs;
-
-namespace NonUnity.Game
+﻿namespace NonUnity.Game
 {
     /// <summary>
     /// Система пулемета
     /// </summary>
-    public sealed class MachineGunSystem : GameSystem, IUpdateSystem
+    public sealed class MachineGunSystem : ExecuteSystem<MachineGunComponent>
     {
-        /// <summary>
-        /// Фильтр сущностей
-        /// </summary>
-        private readonly EcsFilter<MachineGunComponent> _filter;
-
         public MachineGunSystem(Game game) : base(game)
         {
-            _filter = new EcsFilter<MachineGunComponent>(World);
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             if (Game.State != GameState.Play)
                 return;
 
-            foreach (uint entity in _filter.Entities)
+            base.Update(dt);
+        }
+
+        protected override void Execute(uint entity, float dt)
+        {
+            ref MachineGunComponent machineGun = ref World.GetComponent<MachineGunComponent>(entity);
+
+            if (machineGun.NextFire > 0)
             {
-                ref MachineGunComponent machineGun = ref World.GetComponent<MachineGunComponent>(entity);
-
-                if (machineGun.NextFire > 0)
-                {
-                    machineGun.NextFire -= dt;
-                }
-
-                if (!Game.Command.Fire || IsLaserFire(entity) || machineGun.NextFire > 0)
-                    continue;
-
-                ref TransformComponent transform = ref World.GetComponent<TransformComponent>(entity);
-                ref MovementComponent movement = ref World.GetComponent<MovementComponent>(entity);
-
-                uint bulletEntity = Game.Factory.CreateBullet();
-
-                ref BulletComponent bullet = ref World.GetComponent<BulletComponent>(bulletEntity);
-                bullet.Owner = entity;
-
-                ref TransformComponent bulletTransform = ref World.GetComponent<TransformComponent>(bulletEntity);
-                bulletTransform.Position = transform.Position;
-                bulletTransform.Rotation = transform.Rotation;
-
-                ref MovementComponent bulletMovement = ref World.GetComponent<MovementComponent>(bulletEntity);
-                bulletMovement.Direction = movement.Direction;
-                bulletMovement.Velocity = movement.Direction * Game.Settings.Ship.BulletSpeed;
-
-                machineGun.NextFire = Game.Settings.Ship.BulletFireRate;
+                machineGun.NextFire -= dt;
             }
+
+            if (!Game.Command.Fire || IsLaserFire(entity) || machineGun.NextFire > 0)
+                return;
+
+            ref TransformComponent transform = ref World.GetComponent<TransformComponent>(entity);
+            ref MovementComponent movement = ref World.GetComponent<MovementComponent>(entity);
+
+            uint bulletEntity = Game.Factory.CreateBullet();
+
+            ref BulletComponent bullet = ref World.GetComponent<BulletComponent>(bulletEntity);
+            bullet.Owner = entity;
+
+            ref TransformComponent bulletTransform = ref World.GetComponent<TransformComponent>(bulletEntity);
+            bulletTransform.Position = transform.Position;
+            bulletTransform.Rotation = transform.Rotation;
+
+            ref MovementComponent bulletMovement = ref World.GetComponent<MovementComponent>(bulletEntity);
+            bulletMovement.Direction = movement.Direction;
+            bulletMovement.Velocity = movement.Direction * Game.Settings.Ship.BulletSpeed;
+
+            machineGun.NextFire = Game.Settings.Ship.BulletFireRate;
         }
 
         /// <summary>

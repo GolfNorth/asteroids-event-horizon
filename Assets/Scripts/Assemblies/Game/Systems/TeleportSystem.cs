@@ -6,7 +6,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система телепортирования сущностей
     /// </summary>
-    public sealed class TeleportSystem : GameSystem, IUpdateSystem
+    public sealed class TeleportSystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр сущностей

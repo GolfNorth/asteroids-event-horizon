@@ -7,7 +7,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система утилизации пуль
     /// </summary>
-    public sealed class BulletDestroySystem : GameSystem, IUpdateSystem
+    public sealed class BulletDestroySystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр сущностей

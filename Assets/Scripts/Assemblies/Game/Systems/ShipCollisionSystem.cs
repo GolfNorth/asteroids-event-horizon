@@ -1,30 +1,19 @@
-﻿using NonUnity.Ecs;
-
-namespace NonUnity.Game
+﻿namespace NonUnity.Game
 {
     /// <summary>
     /// Система столкновения корабля
     /// </summary>
-    public sealed class ShipCollisionSystem : GameSystem, IUpdateSystem
+    public sealed class ShipCollisionSystem : ExecuteSystem<ShipComponent, CollisionComponent>
     {
-        /// <summary>
-        /// Фильтр сущностей
-        /// </summary>
-        private readonly EcsFilter<ShipComponent, CollisionComponent> _filter;
-
         public ShipCollisionSystem(Game game) : base(game)
         {
-            _filter = new EcsFilter<ShipComponent, CollisionComponent>(World);
         }
 
-        public void Update(float dt)
+        protected override void Execute(uint entity, float dt)
         {
-            foreach (uint entity in _filter.Entities)
-            {
-                World.AddComponent<DestroyComponent>(entity);
+            World.AddComponent<DestroyComponent>(entity);
 
-                Game.State = GameState.GameOver;
-            }
+            Game.State = GameState.GameOver;
         }
     }
 }

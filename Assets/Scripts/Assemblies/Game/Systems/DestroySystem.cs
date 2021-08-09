@@ -6,7 +6,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система уничтожения сущностей
     /// </summary>
-    public sealed class DestroySystem :GameSystem, IUpdateSystem
+    public sealed class DestroySystem :BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр компонента уничтожения

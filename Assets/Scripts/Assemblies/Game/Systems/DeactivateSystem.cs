@@ -6,7 +6,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система деактивации объектов
     /// </summary>
-    public sealed class DeactivateSystem : GameSystem, IUpdateSystem
+    public sealed class DeactivateSystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр сущностей

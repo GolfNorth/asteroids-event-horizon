@@ -6,7 +6,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система передвижения НЛО
     /// </summary>
-    public sealed class UfoMovementSystem : GameSystem, IUpdateSystem
+    public sealed class UfoMovementSystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр сущностей НЛО

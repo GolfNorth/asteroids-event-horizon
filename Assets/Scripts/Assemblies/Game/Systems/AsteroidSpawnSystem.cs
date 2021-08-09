@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NonUnity.Ecs;
+﻿using NonUnity.Ecs;
 
 namespace NonUnity.Game
 {

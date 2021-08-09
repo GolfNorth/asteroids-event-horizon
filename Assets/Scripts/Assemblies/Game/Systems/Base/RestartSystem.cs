@@ -5,7 +5,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система рестарта
     /// </summary>
-    public abstract class RestartSystem : GameSystem, IUpdateSystem
+    public abstract class RestartSystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр рестарта

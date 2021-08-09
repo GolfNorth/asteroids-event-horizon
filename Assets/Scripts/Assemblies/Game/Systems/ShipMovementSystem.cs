@@ -7,7 +7,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система передвижения корабля
     /// </summary>
-    public sealed class ShipMovementSystem : GameSystem, IUpdateSystem
+    public sealed class ShipMovementSystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр компонента корабля

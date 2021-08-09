@@ -6,7 +6,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система очистки
     /// </summary>
-    public sealed class CleanUpSystem : GameSystem, IUpdateSystem
+    public sealed class CleanUpSystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр события перезапуска

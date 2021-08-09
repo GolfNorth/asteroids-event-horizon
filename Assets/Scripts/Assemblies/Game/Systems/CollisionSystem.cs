@@ -7,7 +7,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Система столкновений
     /// </summary>
-    public sealed class CollisionSystem : GameSystem, IUpdateSystem
+    public sealed class CollisionSystem : BaseSystem, IUpdateSystem
     {
         /// <summary>
         /// Фильтр сущностей

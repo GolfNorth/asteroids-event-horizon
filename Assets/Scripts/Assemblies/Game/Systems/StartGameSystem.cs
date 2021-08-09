@@ -3,7 +3,7 @@
     /// <summary>
     /// Система запуска игры
     /// </summary>
-    public sealed class StartGameSystem : GameSystem, IUpdateSystem
+    public sealed class StartGameSystem : BaseSystem, IUpdateSystem
     {
         public StartGameSystem(Game game) : base(game)
         {

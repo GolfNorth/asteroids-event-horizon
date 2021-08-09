@@ -1,35 +1,24 @@
-﻿using NonUnity.Ecs;
-
-namespace NonUnity.Game
+﻿namespace NonUnity.Game
 {
     /// <summary>
     /// Система обработки столкновения НЛО
     /// </summary>
-    public sealed class UfoCollisionSystem : GameSystem, IUpdateSystem
+    public sealed class UfoCollisionSystem : ExecuteSystem<UfoComponent, CollisionComponent>
     {
-        /// <summary>
-        /// Фильтр сущностей
-        /// </summary>
-        private readonly EcsFilter<UfoComponent, CollisionComponent> _filter;
-
         public UfoCollisionSystem(Game game) : base(game)
         {
-            _filter = new EcsFilter<UfoComponent, CollisionComponent>(World);
         }
 
-        public void Update(float dt)
+        protected override void Execute(uint entity, float dt)
         {
-            foreach (uint entity in _filter.Entities)
-            {
-                ref CollisionComponent collision = ref World.GetComponent<CollisionComponent>(entity);
+            ref CollisionComponent collision = ref World.GetComponent<CollisionComponent>(entity);
 
-                if (World.HasComponent<ShipComponent>(collision.Other))
-                    continue;
+            if (World.HasComponent<ShipComponent>(collision.Other))
+                return;
 
-                Game.Score++;
+            Game.Score++;
 
-                World.AddComponent<DestroyComponent>(entity);
-            }
+            World.AddComponent<DestroyComponent>(entity);
         }
     }
 }

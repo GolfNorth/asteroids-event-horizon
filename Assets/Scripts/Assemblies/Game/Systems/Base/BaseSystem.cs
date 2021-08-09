@@ -5,7 +5,7 @@ namespace NonUnity.Game
     /// <summary>
     /// Базовый класс системы
     /// </summary>
-    public abstract class GameSystem : ISystem
+    public abstract class BaseSystem : ISystem
     {
         /// <summary>
         /// Геймплейный объект
@@ -21,7 +21,7 @@ namespace NonUnity.Game
         /// Конструктор системы
         /// </summary>
         /// <param name="game">Геймплейный объект</param>
-        protected GameSystem(Game game)
+        protected BaseSystem(Game game)
         {
             Game = game;
         }

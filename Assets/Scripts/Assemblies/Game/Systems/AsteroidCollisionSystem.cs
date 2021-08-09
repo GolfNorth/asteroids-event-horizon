@@ -1,40 +1,29 @@
-﻿using NonUnity.Ecs;
-
-namespace NonUnity.Game
+﻿namespace NonUnity.Game
 {
     /// <summary>
     /// Система обработки столкновения астероида
     /// </summary>
-    public sealed class AsteroidCollisionSystem : GameSystem, IUpdateSystem
+    public sealed class AsteroidCollisionSystem : ExecuteSystem<AsteroidComponent, CollisionComponent>
     {
-        /// <summary>
-        /// Фильтр сущностей
-        /// </summary>
-        private readonly EcsFilter<AsteroidComponent, CollisionComponent> _filter;
-
         public AsteroidCollisionSystem(Game game) : base(game)
         {
-            _filter = new EcsFilter<AsteroidComponent, CollisionComponent>(World);
         }
 
-        public void Update(float dt)
+        protected override void Execute(uint entity, float dt)
         {
-            foreach (uint entity in _filter.Entities)
-            {
-                ref CollisionComponent collision = ref World.GetComponent<CollisionComponent>(entity);
+            ref CollisionComponent collision = ref World.GetComponent<CollisionComponent>(entity);
 
-                if (World.HasComponent<ShipComponent>(collision.Other))
-                    continue;
+            if (World.HasComponent<ShipComponent>(collision.Other))
+                return;
 
-                Game.Score++;
+            Game.Score++;
 
-                World.AddComponent<DestroyComponent>(entity);
+            World.AddComponent<DestroyComponent>(entity);
 
-                if (World.HasComponent<LaserComponent>(collision.Other))
-                    continue;
+            if (World.HasComponent<LaserComponent>(collision.Other))
+                return;
 
-                CreateNext(entity);
-            }
+            CreateNext(entity);
         }
 
         /// <summary>
