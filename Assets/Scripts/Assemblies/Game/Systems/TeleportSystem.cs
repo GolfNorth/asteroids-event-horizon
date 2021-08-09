@@ -24,6 +24,9 @@ namespace NonUnity.Game
 
             foreach (uint entity in _filter.Entities)
             {
+                if (World.HasComponent<LaserComponent>(entity))
+                    continue;
+
                 ref TransformComponent transform = ref World.GetComponent<TransformComponent>(entity);
 
                 if (transform.Position.X < bounds.Left - transform.Offset)
