@@ -105,11 +105,11 @@ namespace NonUnity.Collision
 
         private static bool EdgeAndPointContact(EdgeShape edge, Vector2 point)
         {
-            float d1 = Vector2.DistanceSquared(point, edge.PointA);
-            float d2 = Vector2.DistanceSquared(point, edge.PointB);
-            float edgeLenght = Vector2.DistanceSquared(edge.PointA, edge.PointB);
+            float d1 = Vector2.Distance(point, edge.PointA);
+            float d2 = Vector2.Distance(point, edge.PointB);
+            float edgeLenght = Vector2.Distance(edge.PointA, edge.PointB);
 
-            return Math.Abs((d1 + d2) * 2 - edgeLenght) < 0.01f;
+            return Math.Abs(d1 + d2 - edgeLenght) < 0.01f;
         }
 
         private static bool EdgeAndCircleContact(EdgeShape edge, CircleShape circle)

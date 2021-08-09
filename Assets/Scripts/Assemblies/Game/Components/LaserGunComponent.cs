@@ -16,6 +16,11 @@
         public float NextFire;
 
         /// <summary>
+        /// Время окончания выстрела
+        /// </summary>
+        public float EndFire;
+
+        /// <summary>
         /// Время перезарядки заряда
         /// </summary>
         public float NextCharge;

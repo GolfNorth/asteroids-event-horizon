@@ -12,6 +12,6 @@ namespace NonUnity.Game
         Ship = 1,
         Ufo = 2,
         Asteroid = 4,
-        Enemy = Ufo & Asteroid
+        Enemy = Ufo | Asteroid
     }
 }

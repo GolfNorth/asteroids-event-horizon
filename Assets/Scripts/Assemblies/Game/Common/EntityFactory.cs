@@ -38,8 +38,12 @@ namespace NonUnity.Game
             uint entityId = _game.World.CreateEntity();
 
             _game.World.AddComponent<ShipComponent>(entityId);
-            _game.World.AddComponent<MachineGunComponent>(entityId);
-            _game.World.AddComponent<LaserGunComponent>(entityId);
+
+            ref MachineGunComponent machineGun = ref _game.World.AddComponent<MachineGunComponent>(entityId);
+            machineGun.NextFire = _game.Settings.Ship.BulletFireRate;
+
+            ref LaserGunComponent laserGun = ref _game.World.AddComponent<LaserGunComponent>(entityId);
+            laserGun.NextFire = _game.Settings.Ship.LaserFireRate;
 
             ref TransformComponent transform = ref _game.World.AddComponent<TransformComponent>(entityId);
             transform.Offset = _game.Settings.Ship.Offset;

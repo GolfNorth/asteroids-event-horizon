@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using NonUnity.Ecs;
@@ -93,12 +93,18 @@ namespace NonUnity.Game
             AddSystem(new ShipMovementSystem(this));
             AddSystem(new UfoMovementSystem(this));
             AddSystem(new TransformSystem(this));
+            AddSystem(new LaserRechargeSystem(this));
+            AddSystem(new LaserGunSystem(this));
+            AddSystem(new LaserSystem(this));
+            AddSystem(new MachineGunSystem(this));
+            AddSystem(new BulletDestroySystem(this));
             AddSystem(new TeleportSystem(this));
             AddSystem(new ShapeSystem(this));
             AddSystem(new CollisionSystem(this));
             AddSystem(new ShipCollisionSystem(this));
             AddSystem(new AsteroidCollisionSystem(this));
             AddSystem(new UfoCollisionSystem(this));
+            AddSystem(new BulletCollisionSystem(this));
             AddSystem(new DeactivateSystem(this));
             AddSystem(new DestroySystem(this));
             AddSystem(new ViewMovementSystem(this));
