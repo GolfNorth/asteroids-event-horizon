@@ -40,7 +40,7 @@ namespace NonUnity.Game
 
                 if (outBounds)
                 {
-                    World.RemoveComponent<CollisionComponent>(entity);
+                    World.RemoveComponent<BodyComponent>(entity);
                     World.AddComponent<DeactivateComponent>(entity);
                 }
             }

@@ -51,7 +51,7 @@ namespace NonUnity.Ecs
         /// </summary>
         public uint CreateEntity()
         {
-            if (_livingEntityCount > _maxEntitiesCount)
+            if (_livingEntityCount >= _maxEntitiesCount)
             {
                 throw new OverflowException("Too many entities in existence.");
             }
