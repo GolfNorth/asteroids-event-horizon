@@ -76,8 +76,7 @@ namespace NonUnity.Collision
         /// </summary>
         public void Set(Vector2 position, float rotation)
         {
-            _position = position;
-            _dirty = true;
+            Translate(position - _position);
         }
 
         /// <summary>
@@ -94,6 +93,9 @@ namespace NonUnity.Collision
         /// <param name="deltaTranslation">Изменение позиции</param>
         public void Translate(Vector2 deltaTranslation)
         {
+            if (deltaTranslation == Vector2.Zero)
+                return;
+
             _position += deltaTranslation;
             _dirty = true;
         }

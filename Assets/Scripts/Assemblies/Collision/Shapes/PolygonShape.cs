@@ -113,6 +113,9 @@ namespace NonUnity.Collision
         /// <param name="deltaAngle">Изменение угла</param>
         public void Rotate(float deltaAngle)
         {
+            if (deltaAngle == 0)
+                return;
+
             _rotation += deltaAngle;
             deltaAngle = (float) Math.PI * deltaAngle / 180f;
 
@@ -136,6 +139,9 @@ namespace NonUnity.Collision
         /// <param name="deltaTranslation">Изменение позиции</param>
         public void Translate(Vector2 deltaTranslation)
         {
+            if (deltaTranslation == Vector2.Zero)
+                return;
+
             _position += deltaTranslation;
 
             for (var i = 0; i < _points.Length; i++)
