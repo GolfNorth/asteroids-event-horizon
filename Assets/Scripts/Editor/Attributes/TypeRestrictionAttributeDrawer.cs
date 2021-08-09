@@ -13,9 +13,9 @@ namespace Asteroids.Editor
     [CustomPropertyDrawer(typeof(TypeRestrictionAttribute))]
     public class TypeRestrictionAttributeDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect _rect, SerializedProperty _property, GUIContent _label)
+        public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label)
         {
-            if (_property.propertyType != SerializedPropertyType.ObjectReference)
+            if (property.propertyType != SerializedPropertyType.ObjectReference)
                 return;
 
             if (!(attribute is TypeRestrictionAttribute restriction))
@@ -23,7 +23,7 @@ namespace Asteroids.Editor
 
             EditorGUI.BeginChangeCheck();
 
-            Object field = EditorGUI.ObjectField(_rect, _label, _property.objectReferenceValue, typeof(Object),
+            Object field = EditorGUI.ObjectField(rect, label, property.objectReferenceValue, typeof(Object),
                 restriction.AllowSceneObjects);
 
             if (EditorGUI.EndChangeCheck())
@@ -49,7 +49,7 @@ namespace Asteroids.Editor
                     }
                 }
 
-                _property.objectReferenceValue = field;
+                property.objectReferenceValue = field;
             }
         }
     }

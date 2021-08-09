@@ -10,11 +10,12 @@ namespace Asteroids.Common
     public class TypeRestrictionAttribute : PropertyAttribute
     {
         public Type Type;
-        public bool AllowSceneObjects = true;
+        public bool AllowSceneObjects;
 
-        public TypeRestrictionAttribute(Type _type)
+        public TypeRestrictionAttribute(Type type, bool allowSceneObjects = true)
         {
-            Type = _type;
+            Type = type;
+            AllowSceneObjects = allowSceneObjects;
         }
     }
 }
