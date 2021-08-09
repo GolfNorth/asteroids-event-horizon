@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShipData
   m_EditorClassIdentifier: 
   settings:
-    Offset: 1
+    Offset: 0.5
     AngularSpeed: 280
     LinearSpeed: 8
     StopSpeed: 0.6

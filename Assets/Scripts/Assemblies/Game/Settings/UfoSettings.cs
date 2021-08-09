@@ -12,7 +12,7 @@ namespace NonUnity.Game
         /// <summary>
         /// Отступ от границы экрана по умолчанию
         /// </summary>
-        public const float DefaultOffset = 2f;
+        public const float DefaultOffset = 1f;
 
         /// <summary>
         /// Задержка между появлениям НЛО по умолчанию

@@ -36,7 +36,7 @@ namespace NonUnity.Game
         /// <param name="maxSpeed">Максимальная скорость</param>
         public AsteroidSizeSettings(float radius, float minSpeed, float maxSpeed)
         {
-            Offset = radius * 2;
+            Offset = radius;
             Radius = radius;
             MinSpeed = minSpeed;
             MaxSpeed = maxSpeed;

@@ -15,15 +15,15 @@ MonoBehaviour:
   settings:
     SpawnDelay: 1.5
     SizeSettings:
-    - Offset: 1
+    - Offset: 0.5
       Radius: 0.5
       MinSpeed: 3
       MaxSpeed: 4
-    - Offset: 1.5
+    - Offset: 0.75
       Radius: 0.75
       MinSpeed: 2
       MaxSpeed: 3
-    - Offset: 2
+    - Offset: 1
       Radius: 1
       MinSpeed: 1
       MaxSpeed: 2

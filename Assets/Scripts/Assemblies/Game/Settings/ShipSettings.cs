@@ -12,7 +12,7 @@ namespace NonUnity.Game
         /// <summary>
         /// Отступ от границы экрана по умолчанию
         /// </summary>
-        public const float DefaultOffset = 1f;
+        public const float DefaultOffset = 0.5f;
 
         /// <summary>
         /// Угловая скорость по умолчанию
