@@ -285,7 +285,7 @@ MonoBehaviour:
     type: 3}
   _bulletPrefab: {fileID: 4556107873203101919, guid: 5231880486c519040a3cecc777340241,
     type: 3}
-  _laserPrefab: {fileID: 348867490545047433, guid: 2ee7633695a064745a5ed81f0b0eae9a,
+  _laserPrefab: {fileID: 39121841052523829, guid: 2ee7633695a064745a5ed81f0b0eae9a,
     type: 3}
   _smallAsteroidPrefab: {fileID: 4326063941555322652, guid: 2f62a04f01e59ff4bb9f35c12d327b9c,
     type: 3}

@@ -63,6 +63,11 @@ namespace Asteroids.Common
         /// </summary>
         public Game Game { get; private set; }
 
+        /// <summary>
+        /// Игровая камера
+        /// </summary>
+        public Camera Camera => _gameCamera;
+
         private void Awake()
         {
             if (Instance == null)
