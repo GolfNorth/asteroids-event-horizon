@@ -15,11 +15,19 @@ namespace Asteroids.Views
     public sealed class ShapeGizmos : MonoBehaviour
     {
 #if UNITY_EDITOR
+        [SerializeField, Tooltip("Отрисовывать когда объект не выбран")]
+        private bool drawAlways;
+
         [SerializeField, Tooltip("Цвет AABB")]
         private Color aabbColor = Color.magenta;
 
         [SerializeField, Tooltip("Цвет формы")]
         private Color shapeColor = Color.green;
+
+        /// <summary>
+        /// Выбран ли объект
+        /// </summary>
+        private bool _selected;
 
         /// <summary>
         /// Фильтр сущностей
@@ -56,8 +64,10 @@ namespace Asteroids.Views
 
         private void OnDrawGizmos()
         {
-            if (Filter == null)
+            if (Filter == null || !_selected && !drawAlways)
                 return;
+
+            _selected = false;
 
             foreach (uint entity in Filter.Entities)
             {
@@ -69,6 +79,11 @@ namespace Asteroids.Views
                 Gizmos.color = shapeColor;
                 DrawShape(in body.Shape);
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            _selected = true;
         }
 
         /// <summary>
