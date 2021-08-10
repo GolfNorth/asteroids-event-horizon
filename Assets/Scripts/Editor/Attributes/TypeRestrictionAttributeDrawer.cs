@@ -11,7 +11,7 @@ namespace Asteroids.Editor
     /// Проверяет тип поля и если оно не соответсвует, то пытается найти нужный объект или сбрасывает значение.
     /// </summary>
     [CustomPropertyDrawer(typeof(TypeRestrictionAttribute))]
-    public class TypeRestrictionAttributeDrawer : PropertyDrawer
+    public sealed class TypeRestrictionAttributeDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label)
         {

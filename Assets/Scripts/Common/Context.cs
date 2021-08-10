@@ -3,7 +3,6 @@ using Asteroids.Data;
 using NonUnity.Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
 
 namespace Asteroids.Common
 {
@@ -13,11 +12,9 @@ namespace Asteroids.Common
     public sealed class Context : MonoBehaviour
     {
         [Header("Main")]
-#if UNITY_EDITOR
-        [TypeRestriction(typeof(UnityEditor.SceneAsset))]
-#endif
+        [Scene]
         [SerializeField, Tooltip("Сцена интерфейса")]
-        private Object uiScene;
+        private string uiScene;
 
         [TypeRestriction(typeof(IViewFactory))]
         [SerializeField, Tooltip("Фабрика визуализаторов")]
@@ -84,7 +81,7 @@ namespace Asteroids.Common
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
-            if (scene.name == uiScene.name)
+            if (scene.name == uiScene)
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
 
@@ -118,7 +115,7 @@ namespace Asteroids.Common
 
             Game = gameBuilder.SetBounds(bounds).Build();
 
-            SceneManager.LoadSceneAsync(uiScene.name, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(uiScene, LoadSceneMode.Additive);
         }
 
         private void Update()

@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e368cc1f94c94d879d112f0a6e64f42a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiScene: {fileID: 102900000, guid: 086329ea3dda37b49845e8601f0bcec6, type: 3}
+  uiScene: UI
   viewFactory: {fileID: 1373983775}
   shipData: {fileID: 11400000, guid: 1827125162fc026449ab68e4d84d31ea, type: 2}
   ufoData: {fileID: 11400000, guid: fb763d3e75c86284faa34b9f2f7bd885, type: 2}

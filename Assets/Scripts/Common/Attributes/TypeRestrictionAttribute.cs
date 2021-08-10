@@ -7,7 +7,7 @@ namespace Asteroids.Common
     /// Атрибут ограничения значения поля по заданному типу. Применимо только к <see cref="UnityEngine.Object"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class TypeRestrictionAttribute : PropertyAttribute
+    public sealed class TypeRestrictionAttribute : PropertyAttribute
     {
         public Type Type;
         public bool AllowSceneObjects;
