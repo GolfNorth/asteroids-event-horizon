@@ -25,21 +25,21 @@ namespace Asteroids.Views
 
             Ray ray = new Ray(position, direction);
 
-            float currentMinDistance = float.MaxValue;
-            Vector3 hitPoint = Vector3.zero;
+            float maxDistance = 0;
             Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Context.Instance.Camera);
 
             for (var i = 0; i < 4; i++)
             {
                 if (planes[i].Raycast(ray, out float distance))
                 {
-                    if (distance < currentMinDistance)
-                    {
-                        hitPoint = ray.GetPoint(distance);
-                        currentMinDistance = distance;
-                    }
+                    maxDistance = Mathf.Max(maxDistance, distance);
                 }
             }
+
+            if (maxDistance == 0)
+                return;
+
+            Vector3 hitPoint = ray.GetPoint(maxDistance);
 
             lineRenderer.SetPosition(0, position);
             lineRenderer.SetPosition(1, hitPoint);
